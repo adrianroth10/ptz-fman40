@@ -6,7 +6,16 @@ When recording events using pan/tilt/zoom-camera there are physical limits as to
 ##Work plan
 1. Connect two images from cameras with known positions relative each other
   * Calculate overlaped part of the images
-  * Probably much computer vision
+  * Probably much computer vision:
+  	a. Find features from both images, by eiter SIFT, SURF, FAST or some other algorithm
+	b. Find point corespondences by some classification method. At least 4 for homography transform, at least five for calibrated fundamental matrix, (essential matrix).
+	c. Perform panoramic stitching
+	d. Investigate cylindrical/spherical projection of stiched image. (see 160 degree videos on youtube for examples)
+	e. find out how to perform pan/tilit/zoom (Probably easy if stiched images is projected unto sphere/cylinder)
+	f. expand from still image to video streams:
+		* find out how to aquire video streams
+		* update features by tracking for increased framerate (Possibly by KLT-algorithm)
+		
 2. Connect more than two images with known positions
   * Same as before but more generalised
 3. Same with unknown positions for two cameras
