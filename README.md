@@ -32,3 +32,10 @@ int getRandomNumber()
 		  // guaranteed to be random
 }
 ```
+
+##Linkz:
+http://www.cambridgeincolour.com/tutorials/image-projections.htm
+http://www.kolor.com/wiki-en/action/view/Understanding_Projecting_Modes
+http://www.lidi.info.unlp.edu.ar/WorldComp2011-Mirror/CGV3304.pdf
+https://github.com/tgdiriba/panoramic
+http://liu.diva-portal.org/smash/get/diva2:822602/FULLTEXT01.pdf
