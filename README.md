@@ -24,6 +24,32 @@ When recording events using pan/tilt/zoom-camera there are physical limits as to
 ##Interesting functions in openCV
 * cv::imread
 
+##Linkz:
+http://www.cambridgeincolour.com/tutorials/image-projections.htm
+
+http://www.kolor.com/wiki-en/action/view/Understanding_Projecting_Modes
+
+http://www.lidi.info.unlp.edu.ar/WorldComp2011-Mirror/CGV3304.pdf
+
+https://github.com/tgdiriba/panoramic
+
+http://liu.diva-portal.org/smash/get/diva2:822602/FULLTEXT01.pdf
+
+##Misc
+adress for cameras:
+`http://31.208.80.26:80`
+`http://31.208.80.26:81`
+
+maybe need to add this to adress
+`/view/viewer_index.shtml?id=12`
+
+###Linux
+add file /etc/ld.so.conf.d/opencv.conf containing
+
+`/usr/local/lib` (path to the libraries)
+
+then run `ldconfig -v`
+
 ##Jokes
 ```
 int getRandomNumber()
@@ -33,9 +59,3 @@ int getRandomNumber()
 }
 ```
 
-##Linkz:
-http://www.cambridgeincolour.com/tutorials/image-projections.htm
-http://www.kolor.com/wiki-en/action/view/Understanding_Projecting_Modes
-http://www.lidi.info.unlp.edu.ar/WorldComp2011-Mirror/CGV3304.pdf
-https://github.com/tgdiriba/panoramic
-http://liu.diva-portal.org/smash/get/diva2:822602/FULLTEXT01.pdf

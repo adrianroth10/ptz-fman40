@@ -8,8 +8,7 @@ int main(int, char**) {
 	cv::VideoCapture vcap;
 	cv::Mat image;
 
-	// This works on a D-Link CDS-932L
-	const std::string videoStreamAddress = "http://<root:ptz-fman40>@<31.208.80.26:80>/video.cgi?.mjpg";
+	const std::string videoStreamAddress = "http://<root:ptz-fman40>@<31.208.80.26:80>";
 
 	//open the video stream and make sure it's opened
 	if(!vcap.open(videoStreamAddress)) {
