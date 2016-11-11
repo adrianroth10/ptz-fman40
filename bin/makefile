@@ -3,10 +3,10 @@ INCLUDE_PATH = ../include/
 TEST_PATH = ../test/
 VPATH = $(SOURCE_PATH) $(INCLUDE_PATH) $(TEST_PATH)
 
-CXXFLAGS = -std=c++11 -pedantic -Wall -Werror -g -funsigned-char -I../include/
+CXXFLAGS = -std=c++11 -pedantic -Wall -Werror -g -funsigned-char -I../include/ -I/usr/local/include/opencv -I/usr/local/include/opencv2
 OFLAGS = -g -I../include/
 
-OPENCV_FLAGS = -I/usr/local/include/opencv -I/usr/local/include/opencv2 -L/usr/local/lib/ -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_stitching -lopencv_videoio
+OPENCV_FLAGS = -I/usr/local/include/opencv -I/usr/local/include/opencv2 -L/usr/local/lib/ -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_stitching -lopencv_videoio -lopencv_imgcodecs
 
 OBJS = test.o
 TEST_OBJS := $(basename $(OBJS))
