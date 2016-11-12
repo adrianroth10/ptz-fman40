@@ -1,7 +1,8 @@
 *.swp
 *temp*
 *.out
-bin/
+bin/*
+!bin/CMakeLists.txt
 *.pdf
 *.aux
 *.log
