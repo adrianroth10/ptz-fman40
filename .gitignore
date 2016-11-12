@@ -1,8 +1,7 @@
 *.swp
 *temp*
 *.out
-bin/*
+bin/
 *.pdf
 *.aux
 *.log
-
