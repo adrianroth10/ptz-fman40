@@ -28,9 +28,12 @@ int main( int argc, char** argv )
 	//img = imread( argv[1], 1 );
 	//cvtColor(img, img_gray, COLOR_BGR2GRAY);
 
+
+	//0150521_194353_C1D8
+
 	//Load in start images and covnert them to grayscale
 	img1 = imread(data_loc+"20150521_194353_49E3.jpg", 1);
-	img2 = imread(data_loc+"20150521_194353_C1D8.jpg", 1);
+	img2 = imread(data_loc+"20150521_194353_FD1E.jpg", 1);
 	cvtColor( img1, img1_gray, COLOR_BGR2GRAY );
 	cvtColor(img2, img2_gray, COLOR_BGR2GRAY);
 
@@ -61,7 +64,7 @@ int main( int argc, char** argv )
 	orbDescriptor->compute(img2_gray, keypointsim2, descriptor2);
 	
 	drawKeypoints(img1, keypointsim1, dst1, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-	drawKeypoints(img1, keypointsim1, dst2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+	drawKeypoints(img2, keypointsim2, dst2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
 
 	namedWindow(feature_window, WINDOW_NORMAL);
 	imshow(feature_window, dst1);
@@ -70,14 +73,17 @@ int main( int argc, char** argv )
 	//Match points.
 	vector<DMatch> correspondences;
 	BFMatcher Matcher = BFMatcher(NORM_L2, false);
-	Matcher.match(descriptor1,descriptor2,correspondences);
+	Matcher.match(descriptor2,descriptor1,correspondences);
 
 	const string corr_win="Correspondences";
 	namedWindow(corr_win, WINDOW_NORMAL);
 	Mat output, mask;
 	Scalar color = Scalar(255, 0, 0);
-	drawMatches(img1, keypointsim1, img2, keypointsim2, correspondences, output, color, color, mask, DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+	drawMatches(img2, keypointsim2, img1, keypointsim1, correspondences, output, color, color, mask, DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 	imshow(corr_win,output);
+
+	//TODO:: Find Homography and stich images
+
 
 	//cornerHarris_demo( 0, 0 );
 
