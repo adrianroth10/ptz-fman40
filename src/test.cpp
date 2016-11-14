@@ -13,7 +13,12 @@ Mat img1,img2, img1_gray,img2_gray;
 int thresh = 200;
 int max_thresh = 255;
 
+#ifdef LINUX
+const string data_loc = "../data/";
+#else
 const string data_loc = "../../data/";
+#endif
+
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
 const string feature_window = "FAST features";
@@ -59,10 +64,10 @@ int main( int argc, char** argv )
 
 	//Extract features with ORB, from the FAST featruepoints.
 	Ptr<DescriptorExtractor> orbDescriptor=ORB::create();
-	int minHessian = 500;
+	//int minHessian = 500;
 	orbDescriptor->compute(img1_gray, keypointsim1, descriptor1);
 	orbDescriptor->compute(img2_gray, keypointsim2, descriptor2);
-	
+
 	drawKeypoints(img1, keypointsim1, dst1, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 	drawKeypoints(img2, keypointsim2, dst2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
 
