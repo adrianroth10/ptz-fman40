@@ -9,11 +9,11 @@ using namespace cv;
 using namespace std;
 
 /// Global variables
-Mat img, img_gray;
+Mat img1,img2, img1_gray,img2_gray;
 int thresh = 200;
 int max_thresh = 255;
 
-const string data_loc = "../data/";
+const string data_loc = "../../data/";
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
 const string feature_window = "FAST features";
@@ -25,24 +25,42 @@ void cornerHarris_demo( int, void* );
 int main( int argc, char** argv )
 {
 	/// Load source image and convert it to gray
-	img = imread( argv[1], 1 );
-	cvtColor( img, img_gray, COLOR_BGR2GRAY );
+	//img = imread( argv[1], 1 );
+	//cvtColor(img, img_gray, COLOR_BGR2GRAY);
+
+	//Load in start images and covnert them to grayscale
+	img1 = imread(data_loc+"20150521_194353_49E3.jpg", 1);
+	img2 = imread(data_loc+"20150521_194353_C1D8.jpg", 1);
+	cvtColor( img1, img1_gray, COLOR_BGR2GRAY );
+	cvtColor(img2, img2_gray, COLOR_BGR2GRAY);
 
 	/// Create a window and a trackbar
 	namedWindow( source_window, WINDOW_NORMAL );
+
+	const string new_data = "second window";
+	namedWindow(new_data, WINDOW_NORMAL);
 	//createTrackbar( "Threshold: ", source_window, &thresh, max_thresh, cornerHarris_demo );
-	imshow( source_window, img );
+	//imshow( source_window, img1 );
+	//imshow(new_data, img2);
 
 	//find features with FAST algorithm
-	vector<KeyPoint> keypoints;
-	int threshold=9;
+	vector<KeyPoint> keypointsim1, keypointsim2;
+	int FASTthreshold=50;
 	bool nonMaxSuppression=1;
-	Mat dst;
+	Mat dst1, dst2;
+	//Mat descriptor1, descriptor2;
 
-	FAST(img_gray, keypoints, threshold, nonMaxSuppression);
-	drawKeypoints(img_gray, keypoints, dst, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+	FAST(img1_gray, keypointsim1, FASTthreshold, nonMaxSuppression);
+	FAST(img2_gray, keypointsim2, FASTthreshold, nonMaxSuppression);
+
+	//Ptr<ORB> orbDetector;
+
+	drawKeypoints(img1, keypointsim1, dst1, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+	drawKeypoints(img1, keypointsim1, dst2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+
 	namedWindow(feature_window, WINDOW_NORMAL);
-	imshow(feature_window, dst);
+	imshow(feature_window, dst1);
+	imshow(new_data, dst2);
 
 	//cornerHarris_demo( 0, 0 );
 
