@@ -1,5 +1,6 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/features2d.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,8 +13,10 @@ Mat img, img_gray;
 int thresh = 200;
 int max_thresh = 255;
 
+const string data_loc = "../data/";
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
+const string feature_window = "FAST features";
 
 /// Function header
 void cornerHarris_demo( int, void* );
@@ -27,16 +30,28 @@ int main( int argc, char** argv )
 
 	/// Create a window and a trackbar
 	namedWindow( source_window, WINDOW_NORMAL );
-	createTrackbar( "Threshold: ", source_window, &thresh, max_thresh, cornerHarris_demo );
+	//createTrackbar( "Threshold: ", source_window, &thresh, max_thresh, cornerHarris_demo );
 	imshow( source_window, img );
 
-	cornerHarris_demo( 0, 0 );
+	//find features with FAST algorithm
+	vector<KeyPoint> keypoints;
+	int threshold=9;
+	bool nonMaxSuppression=1;
+	Mat dst;
+
+	FAST(img_gray, keypoints, threshold, nonMaxSuppression);
+	drawKeypoints(img_gray, keypoints, dst, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+	namedWindow(feature_window, WINDOW_NORMAL);
+	imshow(feature_window, dst);
+
+	//cornerHarris_demo( 0, 0 );
 
 	while (waitKey(0) != '\n');
 	return(0);
 }
 
 /** @function cornerHarris_demo */
+/*
 void cornerHarris_demo( int, void* )
 {
 
@@ -69,3 +84,4 @@ void cornerHarris_demo( int, void* )
 	namedWindow( corners_window, WINDOW_NORMAL );
 	imshow( corners_window, dst_norm_scaled );
 }
+*/
