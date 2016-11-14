@@ -35,7 +35,7 @@ int main( int argc, char** argv )
 	cvtColor(img2, img2_gray, COLOR_BGR2GRAY);
 
 	/// Create a window and a trackbar
-	namedWindow( source_window, WINDOW_NORMAL );
+	//namedWindow( source_window, WINDOW_NORMAL );
 
 	const string new_data = "second window";
 	namedWindow(new_data, WINDOW_NORMAL);
@@ -43,24 +43,41 @@ int main( int argc, char** argv )
 	//imshow( source_window, img1 );
 	//imshow(new_data, img2);
 
-	//find features with FAST algorithm
+	//find feature-points with FAST algorithm
 	vector<KeyPoint> keypointsim1, keypointsim2;
-	int FASTthreshold=50;
+	int FASTthreshold=100;
 	bool nonMaxSuppression=1;
 	Mat dst1, dst2;
-	//Mat descriptor1, descriptor2;
+	Mat descriptor1, descriptor2;
 
 	FAST(img1_gray, keypointsim1, FASTthreshold, nonMaxSuppression);
 	FAST(img2_gray, keypointsim2, FASTthreshold, nonMaxSuppression);
 
-	//Ptr<ORB> orbDetector;
 
-	drawKeypoints(img1, keypointsim1, dst1, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+	//Extract features with ORB, from the FAST featruepoints.
+	Ptr<DescriptorExtractor> orbDescriptor=ORB::create();
+	int minHessian = 500;
+	orbDescriptor->compute(img1_gray, keypointsim1, descriptor1);
+	orbDescriptor->compute(img2_gray, keypointsim2, descriptor2);
+	
+	drawKeypoints(img1, keypointsim1, dst1, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 	drawKeypoints(img1, keypointsim1, dst2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
 
 	namedWindow(feature_window, WINDOW_NORMAL);
 	imshow(feature_window, dst1);
 	imshow(new_data, dst2);
+
+	//Match points.
+	vector<DMatch> correspondences;
+	BFMatcher Matcher = BFMatcher(NORM_L2, false);
+	Matcher.match(descriptor1,descriptor2,correspondences);
+
+	const string corr_win="Correspondences";
+	namedWindow(corr_win, WINDOW_NORMAL);
+	Mat output, mask;
+	Scalar color = Scalar(255, 0, 0);
+	drawMatches(img1, keypointsim1, img2, keypointsim2, correspondences, output, color, color, mask, DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+	imshow(corr_win,output);
 
 	//cornerHarris_demo( 0, 0 );
 
