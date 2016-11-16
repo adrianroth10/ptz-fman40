@@ -1,6 +1,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/features2d.hpp>
+#include <opencv2/calib3d.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,16 @@ const string source_window = "Source image";
 const string corners_window = "Corners detected";
 const string feature_window = "FAST features";
 
+// Creating calibration constants, will use Adrian smancy parser later on
+double fx = 1645.29859;
+double fy = 1642.9788;
+double cx = 940.400694;
+double cy = 539.433057;
+
+Mat cameraMatrix=(Mat1d(3, 3) << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0);
+Mat distortCoefs = (Mat1d(1, 8) << -0.39205638, 0.3269371, 0.0, 0.0, -0.23, 0.0, 0.0, 0.0);
+
+
 /// Function header
 void cornerHarris_demo( int, void* );
 
@@ -36,14 +47,36 @@ int main( int argc, char** argv )
 
 	//0150521_194353_C1D8
 
+	Mat newimg1, newimg2;
+	
+
+
 	//Load in start images and covnert them to grayscale
 	img1 = imread(data_loc+"20150521_194353_49E3.jpg", 1);
 	img2 = imread(data_loc+"20150521_194353_FD1E.jpg", 1);
-	cvtColor( img1, img1_gray, COLOR_BGR2GRAY );
-	cvtColor(img2, img2_gray, COLOR_BGR2GRAY);
+
+	//Rectify images
+	//undistort(img1, newimg1, cameraMatrix, distortCoefs);
+	//undistort(img2, newimg2, cameraMatrix, distortCoefs);
+
+
+	//Recticifation in two steps to show image distortion better
+	Mat rectmap1,rectmap2;
+	Mat newCameraMatrix = getOptimalNewCameraMatrix(cameraMatrix, distortCoefs, img1.size(), 1.0, img1.size());
+	initUndistortRectifyMap(cameraMatrix, distortCoefs, noArray(), newCameraMatrix, img1.size(),CV_32FC1,rectmap1,rectmap2);
+	remap(img1, newimg1, rectmap1, rectmap2, INTER_LINEAR, BORDER_CONSTANT, Scalar(0, 0, 0, 0));
+	remap(img2, newimg2, rectmap1, rectmap2, INTER_LINEAR, BORDER_CONSTANT, Scalar(0, 0, 0, 0));
+
+
+	cvtColor(newimg1, img1_gray, COLOR_BGR2GRAY );
+	cvtColor(newimg2, img2_gray, COLOR_BGR2GRAY);
 
 	/// Create a window and a trackbar
-	//namedWindow( source_window, WINDOW_NORMAL );
+	namedWindow( source_window, WINDOW_NORMAL );
+	imshow( source_window, newimg1 );
+
+	img1 = newimg1;
+	img2 = newimg2;
 
 	const string new_data = "second window";
 	namedWindow(new_data, WINDOW_NORMAL);
