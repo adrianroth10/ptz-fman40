@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 
 
 	// Extract features with ORB, from the FAST featruepoints.
-	orbDescriptor = ORB::create(500, 1.2f, 8, 31, 0, 2, ORB::HARRIS_SCORE, 51, 20);
+	orbDescriptor = ORB::create(500, 1.2f, 8, 31, 0, 2, ORB::HARRIS_SCORE, 121, 20);
 	orbDescriptor->compute(img1_gray, keypointsim1, descriptor1);
 	orbDescriptor->compute(img2_gray, keypointsim2, descriptor2);
 

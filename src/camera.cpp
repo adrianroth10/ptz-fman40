@@ -14,7 +14,7 @@ Mat Camera::getCameraMatrix()
 	double cx = 940.400694;
 	double cy = 539.433057;
 
-	Mat cameraMatrix=(Mat1d(3, 3) << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0);
+	Mat cameraMatrix = (Mat1d(3, 3) << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0);
 
 	return cameraMatrix;
 }
