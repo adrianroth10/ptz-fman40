@@ -135,16 +135,6 @@ int main( int argc, char** argv )
 	}
 
 	Mat H = findHomography( obj, scene, CV_RANSAC );
-	//Mat trans(3, 3, 1);
-	double xtrans=2000.0;
-	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
-	Mat res=trans*H;
-	Mat out(img1.size().height, img1.size().width + 1000, 3);
-	warpPerspective(img1, out, res, out.size());
-	const string test = "Test";
-	namedWindow(test, WINDOW_NORMAL);
-	imshow( test, out );
-
 	//-- Get the corners from the image_1 ( the object to be "detected" )
 	std::vector<Point2f> obj_corners(4);
 	obj_corners[0] = Point(0,0);
@@ -164,12 +154,44 @@ int main( int argc, char** argv )
 	line(img_matches, scene_corners[3] + offset, scene_corners[0] + offset, Scalar(0, 255, 0), 4);
 
 	//-- Show detected matches
-	const string features = "Good Matches & Object detection";
-	namedWindow(features, WINDOW_NORMAL);
-	imshow( features, img_matches );
+	//const string features = "Good Matches & Object detection";
+	//namedWindow(features, WINDOW_NORMAL);
+	//imshow( features, img_matches );
+
+	double xtrans=2000.0;
+	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
+	Mat res=trans*H;
+	Mat out1(img1.size().height, img1.size().width + 2000, 3);
+	Mat out2(img1.size().height, img1.size().width + 2000, 3);
+	warpPerspective(img1, out1, res, out1.size());
+	warpPerspective(img2, out2, trans, out2.size());
+
+	Mat white1(img1.size().height, img1.size().width, CV_8U, (uchar)255);
+	Mat white2(img1.size().height, img1.size().width, CV_8U, (uchar)255);
+
+	Mat whiteOut1(out1.size().height, out1.size().width, 1);
+	Mat whiteOut2(out1.size().height, out1.size().width, 1);
+
+	warpPerspective(white1, whiteOut1, res, whiteOut1.size());
+	warpPerspective(white2, whiteOut2, trans, whiteOut2.size());
+
+	Mat outout(out1.rows, out1.cols, 3);
+	for (int i = 0; i < out1.rows; i++) {
+		for (int j = 0; i < out1.cols; j++) {
+			if (whiteOut1.at(1, 1) == 255 && whiteOut2.at(1, 1) == 255) {
+				outout.at(1, 1, 1) = (out1.at(1, 1, 1) + out2.at(1, 1, 1)) / 2;
+			}
+		}
+	}
+
+	const string test1 = "Test1";
+	namedWindow(test1, WINDOW_NORMAL);
+	imshow( test1, whiteOut1 );
+	const string test2 = "Test2";
+	namedWindow(test2, WINDOW_NORMAL);
+	imshow( test2, whiteOut2 );
 
 	while (waitKey(0) != '\n');
-
 
 	return 0;
 }
