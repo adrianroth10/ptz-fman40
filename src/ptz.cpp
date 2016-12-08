@@ -124,6 +124,14 @@ int main()
 			Perspective.at<double>(2, 0) -= 0.0001;
 			Perspective.at<double>(0,2) += 20;
 		}
+		else if (key == 'r') {
+			Perspective.at<double>(0,0) += 0.01;
+			Perspective.at<double>(1,1) += 0.01;
+		}
+		else if (key == 't') {
+			Perspective.at<double>(0, 0) -= 0.01;
+			Perspective.at<double>(1, 1) -= 0.01;
+		}
 		cout << "Pan translation " <<PanTrans << endl;
 
 		cout << Perspective << endl;
@@ -131,7 +139,7 @@ int main()
 
 		Mat test;
 
-		warpPerspective(img1, test, PanTrans*TransZe*Perspective*invTransZe, img1.size());
+		warpPerspective(img1, test, TransZe*Perspective*invTransZe, img1.size());
 		/*
 		const string Rot_window = "Rotated";
 		namedWindow(Rot_window, WINDOW_NORMAL);
