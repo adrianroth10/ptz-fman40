@@ -161,37 +161,62 @@ int main( int argc, char** argv )
 	double xtrans=2000.0;
 	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
 	Mat res=trans*H;
-	Mat out1(img1.size().height, img1.size().width + 2000, 3);
-	Mat out2(img1.size().height, img1.size().width + 2000, 3);
+	Mat out1(img1.rows, img1.cols + 2000, CV_8UC3);
+	Mat out2(img1.rows, img1.cols + 2000, CV_8UC3);
+	Mat out3(img1.rows, img1.cols + 2000, CV_8UC3);
+	Mat out4(img1.rows, img1.cols + 2000, CV_8UC3);
 	warpPerspective(img1, out1, res, out1.size());
 	warpPerspective(img2, out2, trans, out2.size());
 
-	Mat white1(img1.size().height, img1.size().width, CV_8U, (uchar)255);
-	Mat white2(img1.size().height, img1.size().width, CV_8U, (uchar)255);
+	Mat white1(img1.rows, img1.cols, CV_8UC3, Vec<uchar, 3>(1, 1, 1));
+	Mat white2(img1.rows, img1.cols, CV_8UC3, Vec<uchar, 3>(1, 1, 1));
 
-	Mat whiteOut1(out1.size().height, out1.size().width, 1);
-	Mat whiteOut2(out1.size().height, out1.size().width, 1);
+	Mat whiteOut1(out1.rows, out1.cols, 1);
+	Mat whiteOut2(out1.rows, out1.cols, 1);
 
 	warpPerspective(white1, whiteOut1, res, whiteOut1.size());
 	warpPerspective(white2, whiteOut2, trans, whiteOut2.size());
 
-	Mat outout(out1.rows, out1.cols, 3);
-	for (int i = 0; i < out1.rows; i++) {
-		for (int j = 0; i < out1.cols; j++) {
-			if (whiteOut1.at(1, 1) == 255 && whiteOut2.at(1, 1) == 255) {
-				outout.at(1, 1, 1) = (out1.at(1, 1, 1) + out2.at(1, 1, 1)) / 2;
-			}
-		}
+	multiply(whiteOut1, whiteOut2, whiteOut1, 1, CV_8UC3);
+	multiply(whiteOut1, out1, out3, 1, CV_8UC3);
+	multiply(whiteOut1, out2, out4, 1, CV_8UC3);
+
+	Mat outout(out1.rows, out1.cols, CV_8UC3);
+	addWeighted(out1, 1, out3, -0.5, 0, out1, CV_8UC3);
+	addWeighted(out2, 1, out4, -0.5, 0, out2, CV_8UC3);
+	addWeighted(out1, 1, out2, 1, 0, outout, CV_8UC3);
+
+	/*
+	typedef uchar T;
+	typedef Vec<T, 3> VT;
+	MatConstIterator_<VT> it1 = img1.begin<VT>(), it1_end = img1.end<VT>();
+	MatConstIterator_<VT> it2 = img2.begin<VT>();
+	MatIterator_<VT> dst_it = outout.begin<VT>();
+	for( ; it1 != it1_end; ++it1, ++it2, ++dst_it )
+	{
+		VT pix1 = *it1, pix2 = *it2;
+		float alpha = 0.5, beta = 0.5;
+		*dst_it = VT(saturate_cast<T>(pix1[0]*alpha + pix2[0]*beta),
+				saturate_cast<T>(pix1[1]*alpha + pix2[1]*beta),
+				saturate_cast<T>(pix1[2]*alpha + pix2[2]*beta));
+		std::cout << pix1 << '\n';
+		std::cout << pix2 << '\n';
+		std::cout << "dst" << *dst_it << '\n';
 	}
+	*/
 
 	const string test1 = "Test1";
 	namedWindow(test1, WINDOW_NORMAL);
-	imshow( test1, whiteOut1 );
+	imshow( test1, out1 );
 	const string test2 = "Test2";
 	namedWindow(test2, WINDOW_NORMAL);
-	imshow( test2, whiteOut2 );
+	imshow( test2, out2 );
+	const string test3 = "Test3";
+	namedWindow(test3, WINDOW_NORMAL);
+	imshow( test3, outout );
 
 	while (waitKey(0) != '\n');
 
 	return 0;
 }
+
