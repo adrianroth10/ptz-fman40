@@ -24,8 +24,12 @@ stitching.out: stitch_test.o camera.o
 surf.out: surf.o camera.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
-ptz.out: ptz.o camera.o
+ptz.out: ptz.o camera.o VirtualCamera.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
+
+surf_ptz.out: surf_ptz.o camera.o VirtualCamera.o
+	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
+
 
 clean:
 	rm -f *.o *.out
