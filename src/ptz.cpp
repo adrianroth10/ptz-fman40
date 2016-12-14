@@ -2,7 +2,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/stitching.hpp>
 
-
+#include "VirtualCamera.hpp"
 #include "camera.hpp"
 
 using namespace cv;
@@ -99,6 +99,7 @@ int main()
 	Mat invTransZe = TransZe.inv();
 	Mat Perspective = (Mat1d(3, 3) << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
 	Mat PanTrans = (Mat1d(3, 3) << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+	VirtualCamera cam=VirtualCamera();
 
 	int key = -1;
 	do
@@ -109,20 +110,23 @@ int main()
 		//cout << Perspective << endl;
 		//cout << TransZe << endl;
 		//cout << outtemp.size().height << endl;
-		cout << key << endl;
+		//cout << key << endl;
+		/*
 		if (key == 'w')
 		{
-			Perspective.at<double>(2, 1) -= 0.0001;
+			Perspective.at<double>(2, 1) -= 0.00001;
+			Perspective.at<double>(1, 2) += 10;
 		} else if (key == 's') {
-				Perspective.at<double>(2, 1) += 0.0001;
+			Perspective.at<double>(2, 1) += 0.00001;
+			Perspective.at<double>(1, 2) -= 10;
 		}
 		else if (key == 'd') {
-			Perspective.at<double>(2, 0) += 0.0001;
-			Perspective.at<double>(0,2) -= 20;
+			Perspective.at<double>(2, 0) += 0.00005;
+			Perspective.at<double>(0,2) -= 10;
 		}
 		else if (key == 'a') {
-			Perspective.at<double>(2, 0) -= 0.0001;
-			Perspective.at<double>(0,2) += 20;
+			Perspective.at<double>(2, 0) -= 0.00005;
+			Perspective.at<double>(0,2) += 10;
 		}
 		else if (key == 'r') {
 			Perspective.at<double>(0,0) += 0.01;
@@ -132,9 +136,10 @@ int main()
 			Perspective.at<double>(0, 0) -= 0.01;
 			Perspective.at<double>(1, 1) -= 0.01;
 		}
-		cout << "Pan translation " <<PanTrans << endl;
-
-		cout << Perspective << endl;
+		*/
+		//cout << "Pan translation " <<PanTrans << endl;
+		Perspective = cam.updateView(key);
+		cout << "Perspective grid: " <<Perspective << endl;
 		warpPerspective(newimg1, out, TransZe*Perspective*invTransZe, newimg1.size());
 
 		Mat test;
