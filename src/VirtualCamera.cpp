@@ -22,11 +22,11 @@ Mat VirtualCamera::updateView(char key)
 	}
 	else if (key == 'd') {
 		Perspective.at<double>(2, 0) += 0.00005;
-		Perspective.at<double>(0, 2) -= 10;
+		Perspective.at<double>(0, 2) -= 20;
 	}
 	else if (key == 'a') {
 		Perspective.at<double>(2, 0) -= 0.00005;
-		Perspective.at<double>(0, 2) += 10;
+		Perspective.at<double>(0, 2) += 20;
 	}
 	else if (key == 'r') {
 		Perspective.at<double>(0, 0) += 0.01;
