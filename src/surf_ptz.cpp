@@ -174,7 +174,8 @@ int main( int argc, char** argv )
 	do{
 	std::cout<<"Key pressed:"<<key<<std::endl;
 	key=waitKey(0);
-	Mat TransZe = (Mat1d(3, 3) << 1.0, 0.0, img1.cols/2.0, 0.0, 1.0, img1.rows/2.0, 0.0, 0.0, 1.0);
+	//Mat TransZe = (Mat1d(3, 3) << 1.0, 0.0, img1.cols/2.0, 0.0, 1.0, img1.rows/2.0, 0.0, 0.0, 1.0);
+	Mat TransZe = newCameraMatrix;
 	Mat PTZ=Vcam.updateView(key);
 	Mat res=trans*TransZe*PTZ*TransZe.inv()*H;
 	Mat transPTZ=trans*TransZe*PTZ*TransZe.inv();
