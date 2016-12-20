@@ -16,12 +16,12 @@ VirtualCamera::VirtualCamera()
 
 Mat VirtualCamera::updateView(char key) 
 {
+	double orgtilt=-0.47179832679;
 	//std::cout<<M_PI<<std::endl;
 	if (key == 'w')
 	{
 		//Perspective.at<double>(2, 1) -= 0.00001;
 		Perspective.at<double>(1, 2) += 0.05;
-		
 		tiltangle-=M_PI/100.0;
 	}
 	else if (key == 's') {
@@ -31,12 +31,12 @@ Mat VirtualCamera::updateView(char key)
 	}
 	else if (key == 'd') {
 		//Perspective.at<double>(2, 0) += 0.00005;
-		Perspective.at<double>(0, 2) -= 0.05;
+		Perspective.at<double>(0, 2) -= 0.05*cos(tiltangle+orgtilt);
 		panangle+=M_PI/100.0;
 	}
 	else if (key == 'a') {
 		//Perspective.at<double>(2, 0) -= 0.00005;
-		Perspective.at<double>(0, 2) += 0.05;
+		Perspective.at<double>(0, 2) += 0.05*cos(tiltangle+orgtilt);
 		panangle-=M_PI/100.0;
 	}
 	else if (key == 'r') {
