@@ -21,7 +21,7 @@ main.out: $(OBJS)
 stitching.out: stitch_test.o camera.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
-surf.out: surf.o camera.o
+surf.out: surf.o camera.o lilo.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
 ptz.out: ptz.o camera.o VirtualCamera.o
