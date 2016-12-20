@@ -1,8 +1,13 @@
+#include <opencv2/opencv.hpp>
+#include <string>
+
 #include "camera.hpp"
 
+using cv::Mat;
 using cv::Mat1d;
+using std::string;
 
-Camera::Camera(string file)
+Camera::Camera(std::string file)
 {
 	this->file = file;
 }
