@@ -160,7 +160,7 @@ int main( int argc, char** argv )
 	//namedWindow(features, WINDOW_NORMAL);
 	//imshow( features, img_matches );
 
-	double xtrans=2000.0;
+	double xtrans=0.0;
 	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
 	Mat out1(img1.rows, img1.cols + xtrans, CV_8UC3);
 	Mat out2(img1.rows, img1.cols + xtrans, CV_8UC3);
