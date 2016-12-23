@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-
 #include "lilo.hpp"
 
 using namespace cv;
@@ -77,11 +76,7 @@ void Lilo::getBlendingMats(Mat &whiteOut2, Mat &white1, Mat H1, Mat H2)
 
 	vector<int> box;
 	box = findBox(overlap);
-	/*
-	double a, b;
-	a = -1.0 / (box[1] - box[0]);
-	b = -a * box[1];
-	*/
+
 	double xshift;
 	xshift = box[0] + (box[1] - box[0]) / 2;
 
@@ -93,15 +88,10 @@ void Lilo::getBlendingMats(Mat &whiteOut2, Mat &white1, Mat H1, Mat H2)
 			VF *point1, *point2;
 			point1 = whiteOut1.ptr<VF>(y, x);
 			point2 = whiteOut2.ptr<VF>(y, x);
-			//cout << point << '\n';
 			if (point[0] != 0) {
 				double f1, f2;
-				//f1 = linear(x, a, b);
-				//f2 = 1 - f1;
 				f2 = sigmoid(x, xshift);
 				f1 = 1 - f2;
-				//whiteOut1.at<float>(y, x) = f1;
-				//whiteOut2.at<float>(y, x) = f2;
 				*point1 *= f1;
 				*point2 *= f2;
 			}
@@ -135,13 +125,6 @@ Mat Lilo::blend(Mat img1, Mat img2, Mat H, Mat PTZ, bool imAug)
 
 	Mat outout(out1.rows, out1.cols, CV_8UC3);
 	addWeighted(out1, 1, out2, 1, 0, outout, CV_8UC3);
-
-	const string test1 = "Test1";
-	namedWindow(test1, WINDOW_NORMAL);
-	imshow( test1, white1 );
-	const string test2 = "Test2";
-	namedWindow(test2, WINDOW_NORMAL);
-	imshow( test2, white2 );
 
 	return outout;
 }
