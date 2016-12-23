@@ -7,7 +7,7 @@ class Lilo
 	public:
 		Lilo();
 		//Change to Mat vector of multiple images
-		Mat blend(Mat img1, Mat img2, Mat h);
+		Mat blend(Mat img1, Mat img2, Mat h, Mat ptz, bool imAug);
 		Mat calcHomography(Mat img1, Mat img2);
 		Mat stitch(Mat img1, Mat img2);
 	private:

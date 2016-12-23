@@ -27,7 +27,7 @@ surf.out: surf.o camera.o lilo.o
 ptz.out: ptz.o camera.o VirtualCamera.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
-surf_ptz.out: surf_ptz.o camera.o VirtualCamera.o
+surf_ptz.out: surf_ptz.o camera.o VirtualCamera.o lilo.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
 online_cam.out: onlineCamera.o

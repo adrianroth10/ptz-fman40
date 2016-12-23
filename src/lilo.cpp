@@ -26,19 +26,23 @@ double linear(int x, int zerox)
 }
 */
 
-Mat Lilo::blend(Mat img1, Mat img2, Mat H)
+Mat Lilo::blend(Mat img1, Mat img2, Mat H, Mat PTZ, bool imAug)
 {
-	double xtrans=2000.0;
-	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
-	Mat res=trans*H;
-
-	Mat out1(img1.rows, img1.cols + 2000, CV_8UC3);
-	Mat out2(img1.rows, img1.cols + 2000, CV_8UC3);
-	Mat out3(img1.rows, img1.cols + 2000, CV_8UC3);
-	Mat out4(img1.rows, img1.cols + 2000, CV_8UC3);
-
-	warpPerspective(img1, out1, res, out1.size());
-	warpPerspective(img2, out2, trans, out2.size());
+	//double xtrans=0.0;
+	//Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0)*PTZ;
+	Mat opim1=PTZ*H;
+	Mat opim2=PTZ;
+	if (imAug==1){ //select whether stitching-homography is to be applied on first or second image
+		opim1=Mat::eye(3,3,CV_64F);
+		opim2*=H;	
+	}
+	int offset=0;
+	Mat out1(img1.rows, img1.cols + offset, CV_8UC3);
+	Mat out2(img1.rows, img1.cols + offset, CV_8UC3);
+	Mat out3(img1.rows, img1.cols + offset, CV_8UC3);
+	Mat out4(img1.rows, img1.cols + offset, CV_8UC3);
+	warpPerspective(img1, out1, opim1, out1.size());
+	warpPerspective(img2, out2, opim2, out2.size());
 
 	Mat white1(img1.rows, img1.cols, CV_8UC3, Vec<uchar, 3>(1, 1, 1));
 	Mat white2(img1.rows, img1.cols, CV_8UC3, Vec<uchar, 3>(1, 1, 1));
@@ -46,8 +50,8 @@ Mat Lilo::blend(Mat img1, Mat img2, Mat H)
 	Mat whiteOut1(out1.rows, out1.cols, 1);
 	Mat whiteOut2(out1.rows, out1.cols, 1);
 
-	warpPerspective(white1, whiteOut1, res, whiteOut1.size());
-	warpPerspective(white2, whiteOut2, trans, whiteOut2.size());
+	warpPerspective(white1, whiteOut1, opim1, whiteOut1.size());
+	warpPerspective(white2, whiteOut2, opim2, whiteOut2.size());
 
 	multiply(whiteOut1, whiteOut2, whiteOut1, 1, CV_8UC3);
 	whiteOut2 = whiteOut1.clone();
@@ -197,7 +201,7 @@ Mat Lilo::stitch(Mat img1, Mat img2)
 {
 	Mat H = calcHomography(img1, img2);
 
-	Mat out= blend(img1, img2, H);
+	Mat out= blend(img1, img2, H, (Mat::eye(3,3,CV_64F)), 0);
 
 	return out;
 }
