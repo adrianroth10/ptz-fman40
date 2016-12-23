@@ -26,6 +26,7 @@ cv::Mat curlImg(const char *img_url, int timeout=10)
     vector<uchar> stream;
     CURL *curl = curl_easy_init();
     curl_easy_setopt(curl, CURLOPT_URL, img_url); //the img url
+	curl_easy_setopt(curl, CURLOPT_USERPWD, "root:pass");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data); // pass the writefunction
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &stream); // pass the stream ptr to the writefunction
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout); // timeout if curl_easy hangs, 
@@ -37,23 +38,27 @@ cv::Mat curlImg(const char *img_url, int timeout=10)
 int main(void)
 {
 	Mat image;
+	image =curlImg("83.233.133.248:81/axis-cgi/jpg/image.cgi");
     //Mat image = curlImg("http://www.cars.co.za/images/pictures/general/graphic_sellyourcar.png");
-    //if (image.empty())
-      //  return -1; // load fail
+   	if (image.empty()){
+		cout<<"Failed to download image"<<endl;
+        	return -1; // load fail
+	}
 	
-	//const string address= "http://root@31.208.80.26:81/axis-cgi/mjpg/video..cgi?user=root&password=ptz-fman40";
-	/*cv::VideoCapture vCap(address);
+	/*const string address= "http://root@31.208.80.26:81/axis-cgi/mjpg/video..cgi?user=root&password=ptz-fman40";
+	const string address = "192.168.0.196:81/axis-cgi/jpg/image.jpg";
+	cv::VideoCapture vCap(address);
 	if (!vCap.isOpened())
 	{
 		cout<<"Failed to open stream"<<endl;
 		return -1;
 	}
 	vCap >> image;
-	*/
+	
 	const char address[]{"wget --user=root --password=ptz-fman40 -O test.jpg 31.208.80.26:81/axis-cgi/jpg/image.cgi"};
 	system(address);
 	image=imread("test.jpg");	 
-
+	*/
 	namedWindow( "Image output", CV_WINDOW_AUTOSIZE );
 	imshow("Image output",image); // here's your car ;)
 	waitKey(0); // infinite

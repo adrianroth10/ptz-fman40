@@ -33,5 +33,8 @@ surf_ptz.out: surf_ptz.o camera.o VirtualCamera.o lilo.o
 online_cam.out: onlineCamera.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
+calib.out: camera_calibration.o
+	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
+	
 clean:
 	rm -f *.o *.out
