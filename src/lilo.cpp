@@ -1,13 +1,8 @@
-#include <opencv2/calib3d/calib3d.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/features2d/features2d.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/opencv.hpp>
 
 #include <string>
+#include <vector>
 
 #include "lilo.hpp"
 
@@ -15,60 +10,36 @@ using namespace cv;
 using namespace std;
 using namespace cv::xfeatures2d;
 
+typedef float F;
+typedef Vec<F, 3> VF;
+
 Lilo::Lilo()
 {
 }
 
-/*
-double linear(int x, int zerox)
+double Lilo::linear(int x, double a, double b)
 {
-
+	return a * x + b;
 }
-*/
 
-Mat Lilo::blend(Mat img1, Mat img2, Mat H)
+double Lilo::sigmoid(int x, double xshift)
 {
-	double xtrans=2000.0;
-	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
-	Mat res=trans*H;
+	double a = -0.1;
+	return 1.0 / (1 + exp(a * (x - xshift)));
+}
 
-	Mat out1(img1.rows, img1.cols + 2000, CV_8UC3);
-	Mat out2(img1.rows, img1.cols + 2000, CV_8UC3);
-	Mat out3(img1.rows, img1.cols + 2000, CV_8UC3);
-	Mat out4(img1.rows, img1.cols + 2000, CV_8UC3);
-
-	warpPerspective(img1, out1, res, out1.size());
-	warpPerspective(img2, out2, trans, out2.size());
-
-	Mat white1(img1.rows, img1.cols, CV_8UC3, Vec<uchar, 3>(1, 1, 1));
-	Mat white2(img1.rows, img1.cols, CV_8UC3, Vec<uchar, 3>(1, 1, 1));
-
-	Mat whiteOut1(out1.rows, out1.cols, 1);
-	Mat whiteOut2(out1.rows, out1.cols, 1);
-
-	warpPerspective(white1, whiteOut1, res, whiteOut1.size());
-	warpPerspective(white2, whiteOut2, trans, whiteOut2.size());
-
-	multiply(whiteOut1, whiteOut2, whiteOut1, 1, CV_8UC3);
-	whiteOut2 = whiteOut1.clone();
-	//multiply(whiteOut1, out1, out3, 1, CV_8UC3);
-	//multiply(whiteOut1, out2, out4, 1, CV_8UC3);
-
-	typedef uchar T;
-	typedef Vec<T, 3> VT;
-	int minx = whiteOut1.cols,
-	    miny = whiteOut1.rows,
+vector<int> Lilo::findBox(Mat img)
+{
+	int minx = img.cols,
+	    miny = img.rows,
 	    maxx = 0,
 	    maxy = 0;
 
-	cout << whiteOut1.size() << '\n';
-	//return whiteOut1;
-
-	for (int y = 0; y < whiteOut1.rows; y++) {
-		for (int x = 0; x < whiteOut1.cols; x++) {
-			VT point;
-			point = whiteOut1.at<VT>(y, x);
-			if (point[0] == 1 && point[1] == 1 && point[2] == 1) {
+	for (int y = 0; y < img.rows; y++) {
+		for (int x = 0; x < img.cols; x++) {
+			VF point;
+			point = img.at<VF>(y, x);
+			if (point[0] != 0) {
 				if (x < minx) {
 					minx = x;
 				}
@@ -84,52 +55,93 @@ Mat Lilo::blend(Mat img1, Mat img2, Mat H)
 			}
 		}
 	}
+	vector<int> vec(4);
+	vec[0] = minx;
+	vec[1] = maxx;
+	vec[2] = miny;
+	vec[3] = maxy;
+	return vec;
+}
 
-	double a1, a2, b1, b2;
-	a1 = -1.0 / (maxx - minx);
-	a2 = -a1;
-	b1 = -a1 * maxx;
-	b2 = -a2 * minx;
+void Lilo::getBlendingMats(Mat &whiteOut2, Mat &white1, Mat H1, Mat H2)
+{
+	Mat white2, whiteOut1;
+	white2 = white1.clone();
+	whiteOut1 = whiteOut2.clone();
 
-	for (int y = miny; y < maxy; y++) {
-		for (int x = minx; x < maxx; x++) {
-			VT point;
-			point = whiteOut1.at<VT>(y, x);
+	warpPerspective(white1, whiteOut1, H1, whiteOut1.size());
+	warpPerspective(white2, whiteOut2, H2, whiteOut2.size());
+
+	Mat overlap;
+	multiply(whiteOut1, whiteOut2, overlap, 1, CV_32F);
+
+	vector<int> box;
+	box = findBox(overlap);
+	/*
+	double a, b;
+	a = -1.0 / (box[1] - box[0]);
+	b = -a * box[1];
+	*/
+	double xshift;
+	xshift = box[0] + (box[1] - box[0]) / 2;
+
+	for (int y = box[2]; y <= box[3]; y++) {
+		for (int x = box[0]; x <= box[1]; x++) {
+			VF point;
+			point = overlap.at<VF>(y, x);
+
+			VF *point1, *point2;
+			point1 = whiteOut1.ptr<VF>(y, x);
+			point2 = whiteOut2.ptr<VF>(y, x);
 			//cout << point << '\n';
-			//cout << x << " " << y << '\n';
-
-			VT *point1, *point2;
-			point1 = out1.ptr<VT>(y, x);
-			point2 = out2.ptr<VT>(y, x);
-			//if (point[0] == 1) {
+			if (point[0] != 0) {
 				double f1, f2;
-				f1 = a1 * x + b1;
-				f2 = a2 * x + b2;
-				//cout << f1 << '\n';
-				//cout << f2 << '\n';
-				//cout << *point1 << '\n';
-				//cout << *point2 << '\n';
+				//f1 = linear(x, a, b);
+				//f2 = 1 - f1;
+				f2 = sigmoid(x, xshift);
+				f1 = 1 - f2;
+				//whiteOut1.at<float>(y, x) = f1;
+				//whiteOut2.at<float>(y, x) = f2;
 				*point1 *= f1;
 				*point2 *= f2;
-				//*point1 += VT(f1 * 255, f1 * 255, f1 * 255);
-				//*point2 += VT(f2 * 255, f2 * 255, f2 * 255);
-				//cout << *point1 << '\n';
-				//cout << *point2 << '\n';
-			//}
+			}
 		}
 	}
+	white1 = whiteOut1;
+}
+
+Mat Lilo::blend(Mat img1, Mat img2, Mat H, Mat PTZ, bool imAug)
+{
+	Mat H1 = PTZ * H;
+	Mat H2 = PTZ;
+	if (imAug == true) {
+		H1 = Mat::eye(3, 3, CV_64F);
+		H2 *= H;
+	}
+
+	Mat white1(img1.rows, img1.cols, CV_32FC3, VF(1, 1, 1));
+	Mat white2(img1.rows, img1.cols, CV_32FC3);
+
+	getBlendingMats(white2, white1, H1, H2);
+
+	Mat out1(img1.rows, img1.cols, CV_8UC3);
+	Mat out2(img1.rows, img1.cols, CV_8UC3);
+
+	warpPerspective(img1, out1, H1, out1.size());
+	warpPerspective(img2, out2, H2, out2.size());
+
+	multiply(out1, white1, out1, 1, CV_8UC3);
+	multiply(out2, white2, out2, 1, CV_8UC3);
 
 	Mat outout(out1.rows, out1.cols, CV_8UC3);
-	//addWeighted(out1, 1, out3, -0.5, 0, out1, CV_8UC3);
-	//addWeighted(out2, 1, out4, -0.5, 0, out2, CV_8UC3);
 	addWeighted(out1, 1, out2, 1, 0, outout, CV_8UC3);
 
 	const string test1 = "Test1";
 	namedWindow(test1, WINDOW_NORMAL);
-	imshow( test1, out1 );
+	imshow( test1, white1 );
 	const string test2 = "Test2";
 	namedWindow(test2, WINDOW_NORMAL);
-	imshow( test2, out2 );
+	imshow( test2, white2 );
 
 	return outout;
 }
@@ -197,7 +209,7 @@ Mat Lilo::stitch(Mat img1, Mat img2)
 {
 	Mat H = calcHomography(img1, img2);
 
-	Mat out= blend(img1, img2, H);
+	Mat out= blend(img1, img2, H, Mat::eye(3, 3, CV_64F), 0);
 
 	return out;
 }
