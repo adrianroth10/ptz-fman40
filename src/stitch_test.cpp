@@ -2,7 +2,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/stitching.hpp>
 
-#include "camera.hpp"
+#include "Camera.hpp"
 
 using namespace cv;
 using namespace std;

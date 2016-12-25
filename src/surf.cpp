@@ -1,21 +1,12 @@
-#include <stdio.h>
-
-#include <opencv2/calib3d/calib3d.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/features2d/features2d.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/xfeatures2d.hpp>
-
+#include <ctime>
+#include <opencv2/opencv.hpp>
 #include <string>
 
-#include "camera.hpp"
-#include "lilo.hpp"
+#include "Camera.hpp"
+#include "Lilo.hpp"
 
 using namespace cv;
 using namespace std;
-using namespace cv::xfeatures2d;
 
 // Different locations of the data
 #ifdef LINUX
@@ -27,66 +18,44 @@ const string data_loc = "../../data/";
 
 int main( int argc, char** argv )
 {
-	String file = data_loc + "camera";
-	Camera c(file);
+	string camera_file = data_loc + "camera_football.xml";
+	string source1 = data_loc + "20150521_194353_C1D8.jpg";
+	string source2 = data_loc + "20150521_194353_FD1E.jpg";
+	string source3 = data_loc+"20150521_194353_49E3.jpg";
+	Camera c1(source1, camera_file);
+	Camera c2(source2, camera_file);
+	Camera c3(source3, camera_file);
 
-	//////////// Declaring variables //////////////////
 	Mat img1, img2, img3;
 
-	// Rectification
-	Mat cameraMatrix;
-	Mat distortCoefficients;
-	Mat newCameraMatrix;
-	Mat rectmap1,rectmap2;
-	Mat newimg1, newimg2;
-	Mat img1_gray,img2_gray;
+	img1 = c1.click();
+	img2 = c2.click();
+	img3 = c3.click();
+	img1 = c1.undistortRectifyImage(img1);
+	img2 = c2.undistortRectifyImage(img2);
+	img3 = c3.undistortRectifyImage(img3);
+	Size s = img1.size();
+	s.width += 1000;
 
-	// Load in start images and convert them to grayscale
-	img1 = imread(data_loc+"20150521_194353_C1D8.jpg", 1);
-	img2 = imread(data_loc+"20150521_194353_FD1E.jpg", 1);
-	img3 = imread(data_loc+"20150521_194353_49E3.jpg", 1);
 
-	// Rectification in two steps to show image distortion better
-	cameraMatrix = c.getCameraMatrix();
-	distortCoefficients = c.getDistortCoefficients();
+	Lilo::homographyThreshold = 3;
+	Mat out1 = Lilo::stitch(img2, img1, img3, s);
+	//Mat H = Lilo::calcHomography(img2, img3);
+	//Mat out1 = Lilo::blend(img2, img3, Mat::eye(3, 3, CV_64F), H);
 
-	newCameraMatrix = getOptimalNewCameraMatrix(cameraMatrix,
-						    distortCoefficients,
-						    img1.size(),
-						    1.0,
-						    img1.size());
-	initUndistortRectifyMap(cameraMatrix,
-			        distortCoefficients,
-			        noArray(),
-			        cameraMatrix,
-			        img1.size(),
-			        CV_32FC1,
-			        rectmap1,
-			        rectmap2);
-	remap(img1,
-	      newimg1,
-	      rectmap1,
-	      rectmap2,
-	      INTER_LINEAR);
-	remap(img2,
-	      newimg2,
-	      rectmap1,
-	      rectmap2,
-	      INTER_LINEAR);
-
-	cvtColor(newimg1, img1_gray, COLOR_BGR2GRAY);
-	cvtColor(newimg2, img2_gray, COLOR_BGR2GRAY);
-	img1 = newimg1;
-	img2 = newimg2;
-
-	Lilo lilo;
-	Mat outout = lilo.stitch(img1, img2);
-
-	const string test3 = "Test3";
-	namedWindow(test3, WINDOW_NORMAL);
-	imshow( test3, outout );
+	const string stitch = "Stitching";
+	namedWindow(stitch, WINDOW_NORMAL);
+	imshow(stitch, out1);
 
 	while (waitKey(0) != '\n');
 
 	return 0;
 }
+/*
+	clock_t start, end;
+	start = clock();
+	end = clock();
+
+	double elapsed_secs = double(end - start) / CLOCKS_PER_SEC;
+	cout << elapsed_secs << endl;
+*/
