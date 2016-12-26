@@ -17,8 +17,41 @@ size_t write_data(char *ptr,
 using namespace cv;
 using namespace std;
 
-Camera::Camera(string source, string camera_file)
+// Different locations of the data
+#ifdef LINUX
+const string data_loc = "../data/";
+#else
+const string data_loc = "../../data/";
+#endif
+//////////////////////////////////
+
+Camera::Camera(int nbr)
 {
+	switch (nbr) {
+		case -3:
+			camera_file = data_loc + "camera_football.xml";
+			source = data_loc + "20150521_194353_49E3.jpg";
+			break;
+		case -2:
+			camera_file = data_loc + "camera_football.xml";
+			source = data_loc + "20150521_194353_FD1E.jpg";
+			break;
+		case -1:
+			camera_file = data_loc + "camera_football.xml";
+			source = data_loc + "20150521_194353_C1D8.jpg";
+			break;
+		case 1:
+			camera_file = data_loc + "out_camera_1.xml";
+			source = "83.233.133.248:81/axis-cgi/jpg/image.cgi?camera=1";
+			break;
+		case 2:
+			camera_file = data_loc + "out_camera_2.xml";
+			source = "83.233.133.248:81/axis-cgi/jpg/image.cgi?camera=2";
+			break;
+		default:
+			throw invalid_argument("Not a valid camera");
+	}
+
 	Mat cameraMatrix,
 	    distortCoefficients,
 	    img;
@@ -28,7 +61,8 @@ Camera::Camera(string source, string camera_file)
 	readFile(cameraMatrix, distortCoefficients);
 	img = click();
 
-	newCameraMatrix = getOptimalNewCameraMatrix(cameraMatrix,
+	newCameraMatrix =
+		getOptimalNewCameraMatrix(cameraMatrix,
 						    distortCoefficients,
 						    img.size(),
 						    1.0,

@@ -6,7 +6,7 @@ using cv::Mat;
 class Camera
 {
 	public:
-		Camera(string source, string camera_file);
+		Camera(int nbr);
 
 		Mat click();
 

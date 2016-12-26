@@ -38,8 +38,8 @@ cv::Mat curlImg(const char *img_url, int timeout=10)
 int main(void)
 {
 	Mat image;
-	//image =curlImg("83.233.133.248:81/axis-cgi/jpg/image.cgi");
-	image =curlImg("../data/20150521_194353_C1D8.jpg");
+	image =curlImg("83.233.133.248:81/axis-cgi/jpg/image.cgi?camera=2");
+	//image =curlImg("../data/20150521_194353_C1D8.jpg");
     //Mat image = curlImg("http://www.cars.co.za/images/pictures/general/graphic_sellyourcar.png");
    	if (image.empty()){
 		cout<<"Failed to download image"<<endl;
@@ -60,7 +60,7 @@ int main(void)
 	system(address);
 	image=imread("test.jpg");
 	*/
-	namedWindow( "Image output", CV_WINDOW_AUTOSIZE );
+	namedWindow( "Image output", CV_WINDOW_NORMAL );
 	imshow("Image output",image); // here's your car ;)
 	waitKey(0); // infinite
 }

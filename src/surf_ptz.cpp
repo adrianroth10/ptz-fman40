@@ -9,23 +9,11 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 using namespace std;
 
-// Different locations of the data
-#ifdef LINUX
-const string data_loc = "../data/";
-#else
-const string data_loc = "../../data/";
-#endif
-//////////////////////////////////
-
 int main( int argc, char** argv )
 {
-	string camera_file = data_loc + "camera_football.xml";
-	string source1 = data_loc + "20150521_194353_C1D8.jpg";
-	string source2 = data_loc + "20150521_194353_FD1E.jpg";
-	string source3 = data_loc+"20150521_194353_49E3.jpg";
-	Camera c1(source1, camera_file);
-	Camera c2(source2, camera_file);
-	Camera c3(source3, camera_file);
+	Camera c1(-1);
+	Camera c2(-2);
+	Camera c3(-3);
 
 	Mat img1, img2, img3;
 
