@@ -19,7 +19,7 @@ class Lilo
 				 Size s = Size(0, 0));
 
 		static Mat calcHomography(Mat &img1, Mat &img2);
-/*
+
 		static Mat stitch(Mat &img1,
 				  Mat &img2,
 				  Size s = Size(0, 0));
@@ -34,7 +34,7 @@ class Lilo
 				  Mat &img3,
 				  Mat &img4,
 				  Size s = Size(0, 0));
-*/	private:
+	private:
 		// Internal functions
 		static vector<int> findBox(Mat &img);
 

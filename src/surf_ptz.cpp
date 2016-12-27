@@ -46,16 +46,16 @@ int main( int argc, char** argv )
 //	Mat out3(img1.rows, img1.cols + xtrans, CV_8UC3);
 //	Mat out4(img1.rows, img1.cols + xtrans, CV_8UC3);
 	Mat TransZe = newCameraMatrix;
-	imga imga1 = imga();
+	imga imga1 = imga(img1.size());
 	Mat white1(img1.size(), CV_32FC3, Vec<float,3>(1, 1, 1));
 	imga1.img=img1;
-	imga1.mask=white1;
-	imga imga2 = imga();
+	//imga1.mask=white1;
+	imga imga2 = imga(img1.size());
 	imga2.img=img2;
-	imga2.mask=white1;
-	imga imga3=imga();
+	//imga2.mask=white1;
+	imga imga3=imga(img1.size());
 	imga3.img=img3;
-	imga3.mask=white1;
+	//imga3.mask=white1;
 
 	const string imgtit="image";
 	const string masktit="mask";

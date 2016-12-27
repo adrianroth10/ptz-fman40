@@ -46,7 +46,7 @@ imga Lilo::blend(imga &img1, imga &img2, Mat H1, Mat H2, Size s)
 
 	Mat outout(out1.rows, out1.cols, CV_8UC3);
 	addWeighted(out1, 1, out2, 1, 0, outout, CV_8UC3);
-	imga outa=imga();
+	imga outa=imga(outout.size());
 	outa.img=outout;
 	Mat mask=whiteOut1+whiteOut2;
 	min(mask,1.0,mask);
@@ -190,7 +190,7 @@ double Lilo::sigmoid(int x, double xshift)
 	double a = -0.1;
 	return 1 - 1.0 / (1 + exp(a * (x - xshift)));
 }
-/*
+
 Mat Lilo::stitch(Mat &img1, Mat &img2, Size s)
 {
 	if (s.width <= 0 || s.height <= 0) {
@@ -204,25 +204,25 @@ Mat Lilo::stitch(Mat &img1, Mat &img2, Size s)
 	Mat H1, H2, out;
 	H1 = Mat::eye(3, 3, CV_64F);
 	H2 = calcHomography(img1_gray, img2_gray);
-	Mat white1=(img1.size(), CV_32FC3, Vec<float,3>(1.0, 1.0, 1.0));
-	imga imga1=imga();
-	imga imga2=imga();
+	//Mat white1=(img1.size(), CV_32FC3, Vec<float,3>(1.0, 1.0, 1.0));
+	imga imga1=imga(img1.size());
+	imga imga2=imga(img2.size());
 	imga1.img=img1;
-	imga1.mask=white1;
+	//imga1.mask=white1;
 	imga2.img=img2;
-	imga2.mask=white1;
-		
+	//imga2.mask=white1;
+	imga outa=imga(img2.size());	
 
 	if (H2.at<double>(0, 2) < 0) {
 		H1.at<double>(0, 2) = s.width - img1.cols;
 		H2 = H1 * H2;
-		out = blend(imga2, imga1, H2, H1, s);
+		outa = blend(imga2, imga1, H2, H1, s);
 	} else {
-		out = blend(imga1, imga2, H1, H2, s);
+		outa = blend(imga1, imga2, H1, H2, s);
 	}
 
 
-	return out;
+	return outa.img;
 }
 
 Mat Lilo::stitch(Mat &img1, Mat &img2, Mat &img3, Size s)
@@ -247,4 +247,4 @@ Mat Lilo::stitch(Mat &img1, Mat &img2, Mat &img3, Mat &img4, Size s)
 	out = stitch(out, img4, s);
 
 	return out;
-}*/
+}
