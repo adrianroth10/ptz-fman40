@@ -3,6 +3,7 @@
 using cv::Mat;
 using cv::Size;
 using std::vector;
+#include "imga.hpp"
 
 class Lilo
 {
@@ -11,14 +12,14 @@ class Lilo
 		static int minHessian;
 		static int homographyThreshold;
 
-		static Mat blend(Mat &img1,
-				 Mat &img2,
+		static imga blend(imga &img1,
+				 imga &img2,
 				 Mat H1,
 				 Mat H2,
 				 Size s = Size(0, 0));
 
 		static Mat calcHomography(Mat &img1, Mat &img2);
-
+/*
 		static Mat stitch(Mat &img1,
 				  Mat &img2,
 				  Size s = Size(0, 0));
@@ -33,7 +34,7 @@ class Lilo
 				  Mat &img3,
 				  Mat &img4,
 				  Size s = Size(0, 0));
-	private:
+*/	private:
 		// Internal functions
 		static vector<int> findBox(Mat &img);
 
