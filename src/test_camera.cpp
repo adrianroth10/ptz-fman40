@@ -22,7 +22,7 @@ int main( int argc, char** argv )
 	s.width += 1000;
 
 	Lilo::homographyThreshold = 3;
-	Mat out1 = Lilo::stitch(img2, img1);
+	Mat out1 = Lilo::stitch(img1, img2);
 
 	const string cam1 = "Camera 1";
 	namedWindow(cam1, WINDOW_NORMAL);
