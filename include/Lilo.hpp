@@ -3,7 +3,7 @@
 using cv::Mat;
 using cv::Size;
 using std::vector;
-#include "imga.hpp"
+#include "MatStruct.hpp"
 
 class Lilo
 {
@@ -12,8 +12,8 @@ class Lilo
 		static int minHessian;
 		static int homographyThreshold;
 
-		static imga blend(imga &img1,
-				 imga &img2,
+		static MatStruct blend(MatStruct &img1,
+				 MatStruct &img2,
 				 Mat H1,
 				 Mat H2,
 				 Size s = Size(0, 0));

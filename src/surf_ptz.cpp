@@ -4,7 +4,7 @@
 #include "Camera.hpp"
 #include "Lilo.hpp"
 #include "VirtualCamera.hpp"
-#include "imga.hpp"
+#include "MatStruct.hpp"
 
 using namespace cv;
 using namespace cv::xfeatures2d;
@@ -46,21 +46,16 @@ int main( int argc, char** argv )
 //	Mat out3(img1.rows, img1.cols + xtrans, CV_8UC3);
 //	Mat out4(img1.rows, img1.cols + xtrans, CV_8UC3);
 	Mat TransZe = newCameraMatrix;
-	imga imga1 = imga(img1.size());
+	MatStruct imga1 = MatStruct(img1.size());
 	Mat white1(img1.size(), CV_32FC3, Vec<float,3>(1, 1, 1));
 	imga1.img=img1;
-	//imga1.mask=white1;
-	imga imga2 = imga(img1.size());
+	MatStruct imga2 = MatStruct(img1.size());
 	imga2.img=img2;
-	//imga2.mask=white1;
-	imga imga3=imga(img1.size());
+	MatStruct imga3=MatStruct(img1.size());
 	imga3.img=img3;
-	//imga3.mask=white1;
 
 	const string imgtit="image";
 	const string masktit="mask";
-//	namedWindow(imgtit,WINDOW_NORMAL);
-//	imshow(imgtit,imga1.img);
 	namedWindow(masktit,WINDOW_NORMAL);
 	imshow(masktit,imga1.mask);
 
@@ -71,14 +66,11 @@ int main( int argc, char** argv )
 		std::cout<<"Key pressed:"<<key<<std::endl;
 		key=waitKey(0);
 		Mat PTZ=TransZe*Vcam.updateView(key)*TransZe.inv();
-		//Mat res12=trans*TransZe*PTZ*TransZe.inv()*H12;
-		//Mat transPTZ=trans*TransZe*PTZ*TransZe.inv();
-
 		Mat eye = Mat::eye(3, 3, CV_64F);
 		Mat H1 = PTZ * H12;
 		Mat H2 = PTZ * H23;
-		imga out1 = Lilo::blend(imga1, imga2, H1, PTZ);
-		imga outout = Lilo::blend(out1 ,imga3, eye, H2);
+		MatStruct out1 = Lilo::blend(imga1, imga2, H1, PTZ);
+		MatStruct outout = Lilo::blend(out1 ,imga3, eye, H2);
 
 		//const string test1 = "Test1";
 		//namedWindow(test1, WINDOW_NORMAL);
