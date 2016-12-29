@@ -1,9 +1,29 @@
 \documentclass{article}
 
+\usepackage{amsmath}
+\usepackage[yyyymmdd]{datetime}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\renewcommand{\dateseparator}{ - }
+
+\title{Project in applied Mathematics \\
+  \large Stitching used together with a virtual Pan, Tilt, Zoom camera}
+\author{Adrian Roth and Filip Johannesson}
+
 \begin{document}
 
-\input{introduction.tex}
+\maketitle
 
-\input{theory.tex}
+\input{source/introduction.tex}
+
+\input{source/theory.tex}
+
+\input{source/method.tex}
+
+\input{source/results.tex}
+
+\input{source/discussion.tex}
 
 \end{document}

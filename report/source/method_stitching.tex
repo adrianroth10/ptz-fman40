@@ -1,0 +1,8 @@
+\subsection{Stitching}
+The text only referrs to stitching of two images as the same concept can be expanded to multiple images. The stitching can be divided into two parts. The first one is to find a relation, homography, between two images. In other words where an image {\it fits} in the other image. The other part is to combine or blend the images to make the edge between them unseen.
+\\\\
+To find a relation between two images mutual points have to be found. This is done using a feature detector and a feature descriptor. The detector should find points of interest and the descriptor should describe the point for matching feature points between the images. In this project a method called SURF (Speeded Up Robust Features) has been used. It is both a detector and descriptor. The method has been partly inspired by the SIFT (Scale Invariant Feature Transform) method. SURF should be faster and more robust than SIFT and perform well compared to other methods (Reference to SURF paper). This is one of the reasons for choosing SURF. With points and descriptors in each image these are matched to find which points are the same. This matching will contain outliers.
+\\\\
+With the mutual points in each image a homography can be calculated. Then the robust RANSAC method is used to avoid the outliers from the matching.
+
+
