@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Lilo.hpp"
-#include "MatStruct.hpp"
 
 using namespace cv;
 using namespace std;
@@ -20,7 +19,8 @@ MatStruct Lilo::blend(MatStruct &img1,
 		      MatStruct &img2,
 		      Mat H1,
 		      Mat H2,
-		      Size s)
+		      Size s,
+		      int blendType)
 {
 	if (s.width <= 0 || s.height <= 0) {
 		s = img1.img.size();
@@ -31,7 +31,13 @@ MatStruct Lilo::blend(MatStruct &img1,
 	Mat whiteOut1(s, CV_32FC3);
 	Mat whiteOut2(s, CV_32FC3);
 
-	getBlendingMats(whiteOut1, whiteOut2, white1, white2, H1, H2);
+	getBlendingMats(whiteOut1,
+			whiteOut2,
+			white1,
+			white2,
+			H1,
+			H2,
+			blendType);
 
 	Mat out1(s, CV_8UC3);
 	Mat out2(s, CV_8UC3);
@@ -154,7 +160,8 @@ void Lilo::getBlendingMats(Mat &whiteOut1,
 			   Mat &white1,
 			   Mat &white2,
 			   Mat H1,
-			   Mat H2)
+			   Mat H2,
+			   int blendingType)
 {
 	warpPerspective(white1, whiteOut1, H1, whiteOut1.size());
 	warpPerspective(white2, whiteOut2, H2, whiteOut2.size());
@@ -165,8 +172,19 @@ void Lilo::getBlendingMats(Mat &whiteOut1,
 	vector<int> box;
 	box = findBox(overlap);
 
-	double xshift;
-	xshift = box[0] + (box[1] - box[0]) / 2;
+	function<double(int, vector<int>)> blendingFunc;
+	switch (blendingType) {
+		case (LINEAR):
+			blendingFunc = linear;
+			break;
+		case (SIGMOID):
+			blendingFunc = sigmoid;
+			break;
+		default:
+			throw invalid_argument("Not valid blendtype");
+			break;
+	}
+	blendingFunc(-1, box);
 
 	double f1, f2;
 	for (int y = box[2]; y <= box[3]; y++) {
@@ -177,7 +195,7 @@ void Lilo::getBlendingMats(Mat &whiteOut1,
 			if (point[0] != 0 &&
 			    point[1] != 0 &&
 			    point[2] != 0) {
-				f1 = sigmoid(x, xshift);
+				f1 = blendingFunc(x, vector<int>(0));
 				f2 = 1 - f1;
 				whiteOut1.at<VF>(y, x) *= f1;;
 				whiteOut2.at<VF>(y, x) *= f2;;
@@ -186,13 +204,27 @@ void Lilo::getBlendingMats(Mat &whiteOut1,
 	}
 }
 
-double Lilo::sigmoid(int x, double xshift)
+double Lilo::linear(int x, vector<int> box)
 {
+	static double a, b;
+	if (!box.empty()) {
+		a = -1.0 / (box[1] - box[0]);
+		b = -a * box[1];
+	}
+	return a * x + b;
+}
+
+double Lilo::sigmoid(int x, vector<int> box)
+{
+	static double xshift;
+	if (!box.empty()) {
+		xshift = box[0] + (box[1] - box[0]) / 2;
+	}
 	double a = -0.1;
 	return 1 - 1.0 / (1 + exp(a * (x - xshift)));
 }
 
-Mat Lilo::stitch(Mat &img1, Mat &img2, Size s)
+Mat Lilo::stitch(Mat &img1, Mat &img2, Size s, int blendType)
 {
 	if (s.width <= 0 || s.height <= 0) {
 		s = img1.size();
@@ -214,9 +246,9 @@ Mat Lilo::stitch(Mat &img1, Mat &img2, Size s)
 	if (H2.at<double>(0, 2) < 0) {
 		H1.at<double>(0, 2) = s.width - img1.cols;
 		H2 = H1 * H2;
-		outa = blend(imga2, imga1, H2, H1, s);
+		outa = blend(imga2, imga1, H2, H1, s, blendType);
 	} else {
-		outa = blend(imga1, imga2, H1, H2, s);
+		outa = blend(imga1, imga2, H1, H2, s, blendType);
 	}
 
 

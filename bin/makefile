@@ -23,6 +23,9 @@ ptz.out: ptz.o Camera.o VirtualCamera.o
 stitching.out: stitch_test.o Camera.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
+stitch_results.out: stitch_results.o Camera.o Lilo.o
+	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
+
 surf.out: surf.o Camera.o Lilo.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 

@@ -10,7 +10,7 @@ class MatStruct{
 		{
 			mask=cv::Mat(s,CV_32FC3);
 			mask.setTo(1.0);
-		}
+		};
 };
 
 
