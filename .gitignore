@@ -9,3 +9,4 @@ bin/*
 matlab
 !bin/makefile
 results
+*.dvi
