@@ -4,7 +4,7 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		R_x &=\begin{pmatrix}1 & 0 & 0 \\
 			0 & \cos(\theta_x) & -\sin(\theta_x) \\
 			0 & \sin(\theta_x) & \cos(\theta_x)
-		\end{pmatrix} \label{eq:pan}\\ 
+		\end{pmatrix} \label{eq:pan}\\
 		R_y&=\begin{pmatrix} \cos(\theta_y) & 0 & -\sin(\theta_y) \\
 			0 & 1 & 0 \\
 			\sin(\theta_y) & 0 & \cos(\theta_y)
@@ -14,10 +14,10 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 	Note that these rotations are around the image axi and not around the camera center. In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}). Zooming is also applied in this matrix.
 
 	\begin{equation}
-		T=\begin{pmatrix} 
-			Zoom_x & 0 & T_x \\ 
-			0 & Zoom_y & T_y \\ 
-			0 & 0 & 1 
+		T=\begin{pmatrix}
+			Zoom_x & 0 & T_x \\
+			0 & Zoom_y & T_y \\
+			0 & 0 & 1
 		\end{pmatrix} \label{eq:zmtrns}
 	\end{equation}
 	Where $Zoom_x$ and $Zoom_y$ are scale factors in the x- and y-direction, but since we scale the image uniformly, these are the same. $T_x$ and $T_y$ are translations in the x- and y-direction. $T_x$ is partly regulated by the tiltangle and a tilt angle offest from a completly horizontal camera pose.
