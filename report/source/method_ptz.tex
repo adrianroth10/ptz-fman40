@@ -1,2 +1,8 @@
 \subsection{Virtual PTZ camera}
-
+	Using the decomposition in (eq:problem) we can transform the problem into three rotations, where we only really need to use two of them, rotation around the image X-axis and rotation around the image Y-axis. The rotational matrices are implemented as follows
+	\begin{equation}
+		R_x=\begin{pmatrix}1 & 0 & 0 \\
+			0 & \cos(\theta_x) & -\sin(\theta_x) \\
+			0 & \sin(\theta_x) & \sin(\theta_x)
+		\end{pmatrix}
+	\end{equation}
