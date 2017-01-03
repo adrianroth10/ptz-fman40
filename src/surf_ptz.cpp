@@ -31,21 +31,16 @@ int main( int argc, char** argv )
 	img3 = c3.undistortRectifyImage(img3);
 
 	// Rectification
-	Mat newCameraMatrix;
+	Mat cameraMatrix;
 	Mat newimg1, newimg2, newimg3;
 
-	newCameraMatrix = c1.getNewCameraMatrix();
+	cameraMatrix = c1.getNewCameraMatrix();
 
 	Mat H23 = Lilo::calcHomography(img2, img3);
 	Mat H12 = Lilo::calcHomography(img2, img1);
 
 	double xtrans=0.0;
 	Mat trans=(Mat1d(3,3) << 1.0,0.0,xtrans,0.0,1.0,0.0,0.0,0.0,1.0);
-//	Mat out1(img1.rows, img1.cols + xtrans, CV_8UC3);
-//	Mat out2(img1.rows, img1.cols + xtrans, CV_8UC3);
-//	Mat out3(img1.rows, img1.cols + xtrans, CV_8UC3);
-//	Mat out4(img1.rows, img1.cols + xtrans, CV_8UC3);
-	Mat TransZe = newCameraMatrix;
 	MatStruct imga1 = MatStruct(img1.size());
 	Mat white1(img1.size(), CV_32FC3, Vec<float,3>(1, 1, 1));
 	imga1.img=img1;
@@ -62,11 +57,16 @@ int main( int argc, char** argv )
 
 	char key;
 	VirtualCamera Vcam=VirtualCamera();
+	Mat Rot = Mat::eye(3, 3, CV_64F);
+	Mat Zoom = Mat::eye(3, 3, CV_64F);
+	Mat Trans = Mat::eye(3, 3, CV_64F);
+	Mat eye = Mat::eye(3, 3, CV_64F);
+	Mat PTZ;
 	do{
 		std::cout<<"Key pressed:"<<key<<std::endl;
 		key=waitKey(0);
-		Mat PTZ=TransZe*Vcam.updateView(key)*TransZe.inv();
-		Mat eye = Mat::eye(3, 3, CV_64F);
+		Vcam.updateView(key, Rot, Zoom, Trans);
+		PTZ=Trans * cameraMatrix * Zoom * Rot * cameraMatrix.inv();
 		Mat H1 = PTZ * H12;
 		Mat H2 = PTZ * H23;
 		MatStruct out1 = Lilo::blend(imga1, imga2, H1, PTZ);
