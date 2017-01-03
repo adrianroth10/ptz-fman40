@@ -61,12 +61,12 @@ Camera::Camera(int nbr)
 	readFile(cameraMatrix, distortCoefficients);
 	img = click();
 
-	newCameraMatrix =
-		getOptimalNewCameraMatrix(cameraMatrix,
-						    distortCoefficients,
-						    img.size(),
-						    1.0,
-						    img.size());
+	newCameraMatrix = cameraMatrix;
+		//getOptimalNewCameraMatrix(cameraMatrix,
+						    //distortCoefficients,
+						    //img.size(),
+						    //1.0,
+						    //img.size());
 	initUndistortRectifyMap(cameraMatrix,
 			        distortCoefficients,
 			        noArray(),
