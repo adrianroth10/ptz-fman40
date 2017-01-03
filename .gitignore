@@ -10,3 +10,4 @@ matlab
 !bin/makefile
 results
 *.dvi
+*.synctex.gz
