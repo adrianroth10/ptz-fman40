@@ -11,3 +11,5 @@ matlab
 results
 *.dvi
 *.synctex.gz
+*.bbl
+*.blg

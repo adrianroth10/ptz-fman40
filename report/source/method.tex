@@ -1,5 +1,39 @@
 \section{Method}
 
+The program can be thought of a modifed image stitching pipline, whith stages:
+\begin{enumerate}
+	\item Find Surf features in input images
+	\item Estimate homograpies between input images
+	\item Create the virtual camera
+	\item Pan/Tilt and Zoom with virtual camera to create transformantion-matrix
+	\item Create a composite transformation matrix.
+	\item Apply transformations on input images.
+	\item Blend transformed images.
+\end{enumerate}
+
+In this particular implementation three images depicting a soccer game were used, as can be seen in fig. \ref{fig:input}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../data/20150521_194353_C1D8.jpg}
+		\caption{1}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../data/20150521_194353_FD1E.jpg}
+		\caption{2}
+	\end{subfigure}
+		\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../data/20150521_194353_49E3.jpg}
+		\caption{3}
+	\end{subfigure}
+	\caption{input images}
+	\label{fig:input}
+\end{figure}
+
 \input{source/method_stitching.tex}
 
 \input{source/method_ptz.tex}
