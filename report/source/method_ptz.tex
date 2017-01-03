@@ -25,7 +25,7 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 	The three matrices are finally multiplied together to a single composite matrix, $H_{perspective}$, see (\ref{eq:PTZcomp})
 
 	\begin{equation}
-		H_{perspective}=K^{-1}TR_yR_xK
+		H_{perspective}=KTR_yR_xK^{-1}
 		\label{eq:PTZcomp}
 	\end{equation}
 	where K are the camera matrices. \footnote{Although placement of the T-matrix is a tad bit sketchy at the moment\dots}

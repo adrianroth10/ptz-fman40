@@ -52,7 +52,7 @@ Mat VirtualCamera::updateView(char key)
 	Mat RotPan = (Mat1d(3,3)<<cos(panangle),0.0,-sin(panangle), 0.0,1.0,0.0, sin(panangle),0.0,cos(panangle));
 	//std::cout<<RotTilt<<std::endl;
 	//std::cout<<RotPan<<std::endl;
-	Mat H=Perspective*RotTilt*RotPan;
+	Mat H=RotTilt*RotPan*Perspective;
 	//std::cout<<Perspective<<std::endl;
 	return H;//*RotPan*RotTilt;
 }

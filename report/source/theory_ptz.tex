@@ -1,15 +1,15 @@
 \subsection{PTZ transform}
 	Simply sitiching together images will leave us with a large panorama image. However, the goal of this project is to emulate pan, tilt and zoom camera motions in post processing, so we must find a way to bring in these motions into our stitching. 
 
-	Here we introduce a virtual camera that has the same calibration parameters as the original real cameras. With this virtual camera we should be able to look around in the stiched image as a real camera in the real world, but how? The motion we seek do describe is in $\mathbb{R}^3$ and the aquired images are in $\mathbb{R}^2$, so we want to describe 3D-dimensional motion \footnote{which in this case is mainly rotations} from the reference point of the projected images. In order to describe perspective distortions, we introduce a third \emph{homogeneous coordinate}, thereby going from $\mathbb{R}^2$ to $\mathbb{P}^2$. The perspective distortion can now be desribed by a perspective transform matrix, carried out on each pixel in $\mathbb{P}^2$.
+	Here we introduce a virtual camera that has the same calibration parameters as the original real cameras. With this virtual camera we should be able to look around in the stiched image as a real camera in the real world, but how? The motion we seek do describe is in $\mathbb{R}^3$ and the aquired images are in $\mathbb{R}^2$, so we want to describe 3D-dimensional motion\footnote{which in this case is mainly rotations} from the reference point of the projected images. In order to describe perspective distortions, we introduce a third \emph{homogeneous coordinate}, thereby going from $\mathbb{R}^2$ to $\mathbb{P}^2$. The perspective distortion can now be desribed by a perspective transform matrix, carried out on each pixel in $\mathbb{P}^2$.
 
-	The perspective tranformation matrix ,$H_{perspective}$, itself can be decomposed as in eq. (\ref{eq:homodecomp}) 
+	The perspective tranformation matrix, $H_{perspective}$, itself can be decomposed as in eq. (\ref{eq:homodecomp}) 
 	\begin{equation}
 		H_{perspective}=KR_{xyz}K^{-1}
 		\label{eq:homodecomp}
 	\end{equation}
-	where $K$ is the camera matrix \footnote{which transforms imagepoints from $\mathbb{R}^3$ to $\mathbb{P}^2$} and $R_{xyz}$ is a general rotational matrix in $\mathbb{R}^3$. 
-$R_{xyz}$ can in turn be decomoposed into $R_x$, $R_y$ and $R_z$, i.e. rotations around the x-, y-, and z-axis from the initial pose of the camera.
+	where $K$ is the camera matrix\footnote{which transforms imagepoints from $\mathbb{R}^3$ to $\mathbb{P}^2$} and $R_{xyz}$ is a general rotational matrix in $\mathbb{R}^3$. 
+$R_{xyz}$ can in turn be decomoposed into $R_x$, $R_y$ and $R_z$, i.e. rotations around the x-, y-, and z-axis from the initial pose of the image.
 
 	The zooming part of the camera motion can be described by a simple scaling matrix in $\mathbb{R}^3$ as in, $a_{zoom}*I$, where $a_{zoom}$ is a scaling factor and $I$ is an $3 \times 3$ identity matrix. \footnote{As the images can be considered planes in the $\mathbb{R}^3$ the last entry of the matrix has little effect.}
 
