@@ -1,7 +1,5 @@
-\subsection{SURF feature detector and descriptor}
-SURF stands for Speeded Up Robust Features.
+\subsection{Speeded Up Robust Features (SURF)}
+The information regarding this method is sourced from \cite{SURF}. The SURF is a method for both finding and describing interest points in an image.
 
-\subsection{RANSAC for homography}
-RANSAC stands for RAndom SAmple Consensus. It is a robust method which can be applied in different applications with outliers in the data. The method uses a random component which results in non deterministic output. The output is connected to a probability and the goal is to create a high probabiliy of getting the {\it correct} output without any influence from the outliers. It is an iterative method were each iteration a the minimun number of needed data points for calculation a output, for example two points if a straight line is supposed to be calculated, is randomly choosen. Then a value of how good these points represents the real thing is used to determine if these points are the best ones to use. If the number of iterations is large the probability of getting the correct output.
-
-\subsection{Sigmoid function}
+\subsection{Random Sample Consensus (RANSAC)}
+As described in the work of \cite{RANSAC} RANSAC is a robust method which can be applied in different applications with outliers in the data. The method uses a random component which results in non deterministic output. The output is connected to a probability and the goal is to create a high probabiliy of getting the {\it correct} output without any influence from the outliers. It is an iterative method were each iteration a the minimun number of needed data points for calculation a output, for example two points if a straight line is supposed to be calculated, is randomly choosen. Then a value of how good these points represents the real thing is used to determine if these points are the best ones to use. If the number of iterations is large the probability of getting the correct output.
