@@ -1,1 +1,7 @@
 \section{Discussion}
+As seen in figures \ref{fig:results:stitching:linear} and \ref{fig:results:stitching:sigmoid} the stitching works pretty good for both blending functions. The most important here is to calculate a good homography. However, as seen the images were not taken simultaneously which is clear in the linear blending. Therefore the sigmoid blending is probably preferred for this application. Calculation of the homogaphy is not as robust as one would want. Especially seen in figure \ref{fig:results:stitching:real}. Here the images have been stitched using two {\it real} cameras with homemade calibration. From this result possible improvements in either the stitching or calibration is needed.
+stitching
+  sigmoid bättre än linjärt
+  finns problem i robusthet, får inte alltid rätt på det
+ptz
+  mask och stuff
