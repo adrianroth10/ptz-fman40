@@ -48,6 +48,14 @@ Camera::Camera(int nbr)
 			camera_file = data_loc + "out_camera_2.xml";
 			source = "83.233.133.248:81/axis-cgi/jpg/image.cgi?camera=2";
 			break;
+		case 3:
+			camera_file = data_loc + "out_camera_1.xml";
+			source = data_loc + "homography/camera_1.jpg";
+			break;
+		case 4:
+			camera_file = data_loc + "out_camera_2.xml";
+			source = data_loc + "homography/camera_2.jpg";
+			break;
 		default:
 			throw invalid_argument("Not a valid camera");
 	}
@@ -80,7 +88,7 @@ Camera::Camera(int nbr)
 Mat Camera::click()
 {
 	Mat output;
-	if (camera_file.find("camera_football.xml") != string::npos) {
+	if (source.find(".jpg") != string::npos) {
 		output = imread(source, CV_LOAD_IMAGE_COLOR);
 	} else {
 		output = curlImg(source.c_str());

@@ -7,6 +7,14 @@
 using namespace cv;
 using namespace std;
 
+// Different locations of the data
+#ifdef LINUX
+const string result_loc = "../results/";
+#else
+const string result_loc = "../../results/";
+#endif
+//////////////////////////////////
+
 int main( int argc, char** argv )
 {
 	Camera c1(-1);
@@ -29,8 +37,12 @@ int main( int argc, char** argv )
 	Mat out1 = Lilo::stitch(img2, img1, s, LINEAR);
 	Mat out2 = Lilo::stitch(img2, img1, s, SIGMOID);
 
-	imwrite("../results/stitch_linear.jpg", out1);
-	imwrite("../results/stitch_sigmoid.jpg", out2);
+	string out_loc_1 = result_loc + "stitch_linear.jpg";
+	string out_loc_2 = result_loc + "stitch_sigmoid.jpg";
+	cout << out_loc_1 << endl;
+	cout << out_loc_2 << endl;
+	imwrite(out_loc_1, out1);
+	imwrite(out_loc_2, out2);
 
 	const string lin = "Linear";
 	namedWindow(lin, WINDOW_NORMAL);
