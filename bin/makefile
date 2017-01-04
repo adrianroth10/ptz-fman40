@@ -9,7 +9,10 @@ OPENCV_FLAGS = -I/usr/local/include/opencv -I/usr/local/include/opencv2 -L/usr/l
 
 .PHONY: all clean
 
-all: calib.out online_cam.out surf.out surf_ptz.out test_camera.out
+all: calc_homography.out calib.out online_cam.out stitch_results.out surf.out surf_ptz.out test_camera.out
+
+calc_homography.out: calc_homography.o Camera.o Lilo.o
+	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)
 
 calib.out: camera_calibration.o
 	$(CXX) $(OFLAGS) -o $@ $^ $(OPENCV_FLAGS)

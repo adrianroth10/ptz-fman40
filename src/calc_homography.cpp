@@ -7,14 +7,6 @@
 using namespace cv;
 using namespace std;
 
-// Different locations of the data
-#ifdef LINUX
-const string result_loc = "../results/";
-#else
-const string result_loc = "../../results/";
-#endif
-//////////////////////////////////
-
 int main( int argc, char** argv )
 {
 	Camera c1(3);
@@ -29,7 +21,7 @@ int main( int argc, char** argv )
 	Size s = img1.size();
 	s.width += 1000;
 
-	Lilo::homographyThreshold = 3;
+	Lilo::homographyThreshold = 50;
 	Mat out1 = Lilo::stitch(img1, img2);
 
 	const string cam1 = "Camera 1";
@@ -42,9 +34,15 @@ int main( int argc, char** argv )
 	namedWindow(stitch, WINDOW_NORMAL);
 	imshow(stitch, out1);
 
-	imwrite(result_loc + "home_made_stitch.jpg", out1);
-
 	while (waitKey(0) != '\n');
 
 	return 0;
 }
+/*
+	clock_t start, end;
+	start = clock();
+	end = clock();
+
+	double elapsed_secs = double(end - start) / CLOCKS_PER_SEC;
+	cout << elapsed_secs << endl;
+*/
