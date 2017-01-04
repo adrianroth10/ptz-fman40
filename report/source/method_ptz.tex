@@ -11,29 +11,38 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		\end{pmatrix} \label{eq:tilt}
 	\end{align}
 
-	Note that these rotations are around the image axi and not around the camera center. In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}). Zooming is also applied in this matrix.
+	Note that these rotations are around the image axi and not around the camera center. In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}).
 
 	\begin{equation}
 		T=\begin{pmatrix}
-			Zoom_x & 0 & T_x \\
-			0 & Zoom_y & T_y \\
+			1 & 0 & T_x \\
+			0 & 1 & T_y \\
 			0 & 0 & 1
 		\end{pmatrix} \label{eq:zmtrns}
 	\end{equation}
-	Where $Zoom_x$ and $Zoom_y$ are scale factors in the x- and y-direction, but since we scale the image uniformly, these are the same. $T_x$ and $T_y$ are translations in the x- and y-direction. $T_x$ is partly regulated by the tiltangle and a tilt angle offest from a completly horizontal camera pose.
+	$T_x$ and $T_y$ are translations in the x- and y-direction. $T_x$ is partly regulated by the tiltangle and a tilt angle offest from a completly horizontal camera pose.
+	The zoom is implemented as (\ref{eq:zoom}).
+	\begin{equation}
+		Z=\begin{pmatrix}
+			Zoom_x & 0 & 0\\
+			0 & Zoom_y & 0\\
+			0 & 0 & 1
+		\end{pmatrix}
+	\end{equation}
 
-	The three matrices are finally multiplied together to a single composite matrix, $H_{perspective}$, see (\ref{eq:PTZcomp})
+	Where $Zoom_x$ and $Zoom_y$ are scale factors in the x- and y-direction, but since we scale the image uniformly, these are the same. 
+
+	The matrices are finally multiplied together to a single composite matrix, $H_{perspective}$, see (\ref{eq:PTZcomp})
 
 	\begin{equation}
-		H_{perspective}=KTR_yR_xK^{-1}
+		H_{perspective}=TKZR_yR_xK^{-1}
 		\label{eq:PTZcomp}
 	\end{equation}
-	where K are the camera matrices. \footnote{Although placement of the T-matrix is a tad bit sketchy at the moment\dots}
-
+	where K are the camera calibration matrices.
 	As stated in the theory section, the homographies applied on the images are variants of a composite matrix defined as in (\ref{eq:comp}).
 
 	\begin{equation}
-		H_{composite}=H_{perspective}H_{Stitching}
+		H_{composite}=H_{perspective}H_{stitching}
 		\label{eq:comp}
 	\end{equation}
-	Where $H_{Stitching}$ is the homography produced by the stiching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms.
+	Where $H_{stitching}$ is the homography produced by the stiching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms.

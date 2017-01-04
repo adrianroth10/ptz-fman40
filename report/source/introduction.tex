@@ -19,9 +19,9 @@ Tracking a plethora of moving objects, such as an ongoing soccer game, with a me
 In this project we investigate another method, where multiple stationary cameras are used to cover the entire scene under surveillance, and then produce the PTZ-motion in software by panoramic stitching and virtual cameras.
 A conceptual depiction of the system can be seen in fig. \ref{fig:comp}.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\columnwidth]{../results/images/PTZ_comp.png}
-	\caption{A concept drawing of a virtual PTZ-camera. The input images are transformed and stitched together to form an image of the entire scene.}
+	\caption{A concept drawing of a virtual PTZ-camera. The input images are transformed and stitched together to form a ''curved'', stitched image of the entire scene. The virtual camera can then be seen as putting a new camera in front of this ''curved image'', where the pan and tilts are essentially rotations of the virtual camera. Zooming can be thought of just magifying or reduction of the stiched image.}
 	\label{fig:comp}
 \end{figure}
