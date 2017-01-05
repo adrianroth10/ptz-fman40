@@ -1,0 +1,16 @@
+\appendix
+
+\subsection{OpenCV 3.1.0} \label{appendix:opencv}
+Here the most important OpenCV functionality is listed.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c|p{6cm}}
+    Mat & This wonderful class Mat is used to store any kind of matrix, including images. A must have when performing image analysis in OpenCV. \\
+    \hline
+    SURF & A class from the contrib part of OpenCV, not included in the standard library. This class is used as detector and descriptor. \\
+    \hline
+    findHomography & Function to calculate homography, possibly using RANSAC, from a number of matched points between two images. \\
+    \hline
+    warpPerspective & Function that transforms an image using a homography.
+  \end{tabular}
+\end{table}
