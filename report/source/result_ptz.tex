@@ -1,7 +1,8 @@
 \subsection{Virtual PTZ camera}
-Initially, some simple transformations were carried out in MatLab using a symmetrical set of normalized homogeneous points, i.e. four points with coordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) in $\mathbb{P}^2$.
+Initially, some simple transformations were carried out in MATLAB using a symmetrical set of normalized homogeneous points, i.e. four points with coordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) in $\mathbb{P}^2$.
 
-Secondary trials were made with a point set with origo in a corner point, similar to the coordinate system in an image. Here ``calibration'' matrices were needed in order to move the image origo to the center of the image and scale it.
+Secondary trials were made with a point set with origo in a corner point, similar to the coordinate system in an image.
+Here ``calibration'' matrices were needed in order to move the image origo to the center of the image and scale it.
 
 Advancments into real-images were then straight forward as the synthezised calibration matrices were replaced with the real calibration matrices.
 The resulting ptz movement can be seen in fig. \ref{fig:ptz_res}.

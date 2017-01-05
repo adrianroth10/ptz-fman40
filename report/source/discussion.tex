@@ -1,6 +1,15 @@
 \section{Discussion}
-For the stitching there two different blending functions were used as seen in fig. \ref{fig:results:stitching:linear} and \ref{fig:results:stitching:sigmoid}. The blending first of all reveals that the images are not taken at the same time. This means that the scene has changed betwen the images. With this in mind the sigmoid function gives a better result, a smoother transition in the stitching. Otherwise the stitching has prooved to be not so robust as one would want. During some part of the project the homography calculation between the images were wrong. But twitching some parameter in opencv's function findHomography fixed this. Then for our home made camera set-up the stitching performed quite poorly as seen in fig. \ref{fig:results:stitching:homemade}. Except for the possibility of bad algorithms the result might also be improved by doing a better calibration of the cameras.
+For the stitching there two different blending functions were used as seen in fig. \ref{fig:results:stitching:linear} and \ref{fig:results:stitching:sigmoid}.
+The blending first of all reveals that the images are not taken at the same time.
+This means that the scene has changed betwen the images.
+With this in mind the sigmoid function gives a better result, a smoother transition in the stitching.
+Otherwise the stitching has prooved to be not so robust as one would want.
+During some part of the project the homography calculation between the images were wrong.
+But twitching some parameter in opencv's function findHomography fixed this.
+Then for our home made camera set-up the stitching performed quite poorly as seen in fig. \ref{fig:results:stitching:homemade}.
+Except for the possibility of bad algorithms the result might also be improved by doing a better calibration of the cameras.
 
-For the PTZ-transform, actual implementation in c++ in combination with the stitching homographies were initially troublesome, but as it was soon realized that first applying stiching homographies and then applying the PTZ-transform made the images keep the correct relations to each other. 
+For the PTZ-transform, actual implementation in C++ in combination with the stitching homographies were initially troublesome, but as it was soon realized that first applying stiching homographies and then applying the PTZ-transform made the images keep the correct relations to each other.
 The were also some problems with the PTZ-transform being applied twice on some of the stiched images, giving the impression that parts of the scene were ``drifting'' away, as well as the image masks not being transformed the same way as the images themselves.
-The masking problem was eventually corrected by introducing a class containg both the BGR-image\footnote{openCV has its color encoding this way.} and the masking image, making sure that the same transforms were always applied to both image and mask. The image drifting was solved by making sure that PTZ-transform was only applied once per image/mask pair. 
+The masking problem was eventually corrected by introducing a class containg both the BGR-image\footnote{openCV has its color encoding this way.} and the masking image, making sure that the same transforms were always applied to both image and mask.
+The image drifting was solved by making sure that PTZ-transform was only applied once per image/mask pair.
