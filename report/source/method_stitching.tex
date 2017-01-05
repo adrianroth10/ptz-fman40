@@ -1,6 +1,23 @@
 \subsection{Stitching}
-This text only refers to stitching of two images, the same concept can be expanded for multiple images. The stitching can be divided into two parts. The first one is to find a relation, homography, between two images. In other words where an image {\it fits} in the other image. The other part is to combine or blend the images to make the transition between them as smooth as possible.
+This text only refers to stitching of two images, the same concept can be expanded for multiple images.
 
-To find a relation between two images, mutual points have to be found. This is done using a point detector which should find interest points. Then the points need a value for the possibility of matching points that are similar. Here a feature descriptor is needed. In this project a method called SURF has been used. It includes both a detector and descriptor. After SURFing the images the descriptors of the points are matched, this matching is very likely to contain outliers. However, the RANSAC method can be used to avoid influence of the outliers when calculating the homography between the images.
+The stitching can be divided into two parts.
+The first one is to find a relation, homography, between two images.
+In other words where an image {\it fits} in the other image.
+The other part is to combine or blend the images to make the transition between them as smooth as possible.
 
-The blending of the two images consists of three steps. First the previously calculated homogaphy is used to get the images in the same perspective. Here there is an overlap between the images. This overlap is weighted with a value ($w_1 \in [0, 1]$) for the first image and ($w_2 = 1 - w_1$) for the other. The weighting function is choosen to get the smoothest transition. At last the weighted images are added together.
+To find a relation between two images, mutual points have to be found.
+This is done using a point detector which should find interest points.
+Then the points need a value for the possibility of matching points that are similar.
+Here a feature descriptor is needed.
+In this project a method called SURF has been used.
+It includes both a detector and descriptor.
+After SURFing the images the descriptors of the points are matched.
+This matching is very likely to contain outliers, however, the RANSAC method can be used to avoid influence of the outliers when calculating the homography between the images.
+
+The blending of the two images consists of three steps.
+First the previously calculated homogaphy is used to get the images in the same perspective.
+Here there is an overlap between the images.
+This overlap is weighted with a value ($w_1 \in [0, 1]$) for the first image and ($w_2 = 1 - w_1$) for the other.
+The weighting function is choosen to get the smoothest transition.
+At last the weighted images are added together.
