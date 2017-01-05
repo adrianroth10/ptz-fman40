@@ -20,7 +20,7 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 			0 & 0 & 1
 		\end{pmatrix} \label{eq:zmtrns}
 	\end{equation}
-	$T_x$ and $T_y$ are translations in the x- and y-direction. $T_x$ is partly regulated by the tiltangle and a tilt angle offest from a completly horizontal camera pose.
+	$T_x$ and $T_y$ are translations in the x- and y-direction. $T_x$ is partly regulated by the tilt angle and a tilt angle offest from a completly horizontal camera pose.
 	The zoom is implemented as (\ref{eq:zoom}).
 	\begin{equation}
 		Z=\begin{pmatrix}
@@ -46,4 +46,4 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		H_{composite}=H_{perspective}H_{stitching}
 		\label{eq:comp}
 	\end{equation}
-	Where $H_{stitching}$ is the homography produced by the stiching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms. % is it not the other way around
+	Where $H_{stitching}$ is the homography produced by the stitching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms. % is it not the other way around
