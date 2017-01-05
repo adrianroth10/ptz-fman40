@@ -1,5 +1,14 @@
 \subsection{Speeded-Up Robust Features (SURF)}
-SURF is a method for both detecting and describing interest points in an image. It outperforms earlier detection and description algorithms concerning repeatability, distinctivenss and robustness according to the work of \cite{SURF}. The detection of interest points are calculated using the determinant of the Hessian matrix. This matrix is produced by convolution of smoothing gaussian second derivatives with the image. Here the points with local maximum of the determinant are declared interest points, they represent {\it blob-like} features. SURF's descriptor use two steps to extraxt robust features from an interest point. First an orientation of the feature is calculated. This will contribute to rotational invariance of the descriptor. This orientation is used to form a square with the interest point in the center and from this square 64 features are calculated using Haar Wavelets.
+SURF is a method for both detecting and describing interest points in an image.
+It outperforms earlier detection and description algorithms concerning repeatability, distinctivenss and robustness according to the work of \cite{SURF}.
+The detection of interest points are calculated using the determinant of the Hessian matrix.
+This matrix is produced by convolution of smoothing gaussian second derivatives with the image.
+Here the points with local maximum of the determinant are declared as interest points, they represent {\it blob-like} features.
+
+SURF's descriptor use two steps to extraxt robust features from an interest point.
+First an orientation of the feature is calculated.
+This will contribute to rotational invariance of the descriptor.
+This orientation is used to form a square with the interest point in the center and from this square 64 features are calculated using Haar Wavelets.
 
 \subsection{Random Sample Consensus (RANSAC)}
 As described in the work of \cite{RANSAC}, RANSAC is a robust method which can be applied in different applications with outliers in the data. 
