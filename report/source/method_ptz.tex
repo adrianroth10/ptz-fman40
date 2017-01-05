@@ -11,7 +11,7 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		\end{pmatrix} \label{eq:tilt}
 	\end{align}
 
-	Note that these rotations are around the image axi and not around the camera center. In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}).
+	Note that these rotations are around the image axis and not around the camera center. In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}).
 
 	\begin{equation}
 		T=\begin{pmatrix}
@@ -31,7 +31,7 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		\label{eq:zoom}
 	\end{equation}
 
-	Where $Zoom_x$ and $Zoom_y$ are scale factors in the x- and y-direction, but since we scale the image uniformly, these are the same. 
+	Where $Zoom_x$ and $Zoom_y$ are scale factors in the x- and y-direction, but since we scale the image uniformly, these are the same.
 
 	The matrices are finally multiplied together to a single composite matrix, $H_{perspective}$, see (\ref{eq:PTZcomp})
 
@@ -46,4 +46,4 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		H_{composite}=H_{perspective}H_{stitching}
 		\label{eq:comp}
 	\end{equation}
-	Where $H_{stitching}$ is the homography produced by the stiching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms.
+	Where $H_{stitching}$ is the homography produced by the stiching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms. % is it not the other way around

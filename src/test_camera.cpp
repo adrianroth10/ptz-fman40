@@ -17,8 +17,8 @@ const string result_loc = "../../results/";
 
 int main( int argc, char** argv )
 {
-	Camera c1(3);
-	Camera c2(4);
+	Camera c1(1);
+	Camera c2(2);
 
 	Mat img1, img2;
 
@@ -42,6 +42,8 @@ int main( int argc, char** argv )
 	namedWindow(stitch, WINDOW_NORMAL);
 	imshow(stitch, out1);
 
+	imwrite(result_loc + "camera_1.jpg", img1);
+	imwrite(result_loc + "camera_2.jpg", img2);
 	imwrite(result_loc + "home_made_stitch.jpg", out1);
 
 	while (waitKey(0) != '\n');
