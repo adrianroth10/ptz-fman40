@@ -1,5 +1,6 @@
 \subsection{Virtual PTZ camera}
-Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem into three rotations, where we only really need to use two of them, rotation around the image X-axis and rotation around the image Y-axis. The rotational matrices are implemented as follows in (\ref{eq:pan}) and (\ref{eq:tilt})
+Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem into three rotations, where we only really need to use two of them, rotation around the image X-axis and rotation around the image Y-axis.
+The rotational matrices are implemented as follows in (\ref{eq:pan}) and (\ref{eq:tilt})
 	\begin{align}
 		R_x &=\begin{pmatrix}1 & 0 & 0 \\
 			0 & \cos(\theta_x) & -\sin(\theta_x) \\
@@ -11,7 +12,8 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 		\end{pmatrix} \label{eq:tilt}
 	\end{align}
 
-	Note that these rotations are around the image axis and not around the camera center. In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}).
+	Note that these rotations are around the image axis and not around the camera center.
+        In order to emulate rotation around the camera center, a translation matrix is also applied, defined in $\mathbb{P}^2$ as (\ref{eq:zmtrns}).
 
 	\begin{equation}
 		T=\begin{pmatrix}
@@ -20,7 +22,8 @@ Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem in
 			0 & 0 & 1
 		\end{pmatrix} \label{eq:zmtrns}
 	\end{equation}
-	$T_x$ and $T_y$ are translations in the x- and y-direction. $T_x$ is partly regulated by the tilt angle and a tilt angle offest from a completly horizontal camera pose.
+	$T_x$ and $T_y$ are translations in the x- and y-direction.
+        $T_x$ is partly regulated by the tilt angle and a tilt angle offest from a completly horizontal camera pose.
 	The zoom is implemented as (\ref{eq:zoom}).
 	\begin{equation}
 		Z=\begin{pmatrix}

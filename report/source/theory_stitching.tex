@@ -11,8 +11,12 @@ This will contribute to rotational invariance of the descriptor.
 This orientation is used to form a square with the interest point in the center and from this square 64 features are calculated using Haar Wavelets.
 
 \subsection{Random Sample Consensus (RANSAC)}
-As described in the work of \cite{RANSAC}, RANSAC is a robust method which can be applied in different applications with outliers in the data. 
-The method uses a random component which results in non deterministic output. This stochasticity also connects the output to a probability and the goal is to create a high probabiliy of getting the {\it correct} output without any influence from the outliers. 
-To reach this goal there are multiple parameters to fine-tune. For example, it is an iterative method and the number of iterations should be determined. Each iteration randomly choose the minimun number of data points needed for calculating an output. 
-Then a value of how good these points represents the {\it correct} output is used to determine if these points are the best ones. 
-As mentioned this is repeated for a sufficient number of iterations. Then the iteration that resulted in the best fit is set as the output from the method.
+As described in the work of \cite{RANSAC}, RANSAC is a robust method which can be applied in different applications with outliers in the data.
+The method uses a random component which results in non deterministic output.
+This stochasticity also connects the output to a probability and the goal is to create a high probabiliy of getting the {\it correct} output without any influence from the outliers.
+To reach this goal there are multiple parameters to fine-tune.
+For example, it is an iterative method and the number of iterations should be determined.
+Each iteration randomly choose the minimun number of data points needed for calculating an output.
+Then a value of how good these points represents the {\it correct} output is used to determine if these points are the best ones.
+As mentioned this is repeated for a sufficient number of iterations.
+Then the iteration that resulted in the best fit is set as the output from the method.
