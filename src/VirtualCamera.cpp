@@ -6,47 +6,76 @@
 using cv::Mat1d;
 
 
-VirtualCamera::VirtualCamera() 
+VirtualCamera::VirtualCamera(double tiltOffset, double angleIncrement):
+       tiltOffsetAngle(tiltOffset), angleInc(angleIncrement)	
 {
-	//Perspective = Mat::eye(3,3,CV_64F);
 	tiltangle=0.0;
 	panangle=0.0;
+	tOM=Mat::eye(3,3,CV_64F);  //tilt Offset matrix
+	RotTilt=Mat::eye(3,3,CV_64F); //tilt Rotation matrix
+	RotPan=Mat::eye(3,3,CV_64F);  //Pan Rotation matrix
+	double stO=sin(-tiltOffset); // sin tilt Offset
+	double ctO=cos(-tiltOffset); // cos tilt Offset
+	for (int i=1;i<=2;++i){
+		tOM.at<double>(i,i)=ctO;
+		tOM.at<double>(i,3-i)=(-3+2*i)*stO;
+	}
+		
 }
 
 
-void VirtualCamera::updateView(char key, Mat& Rot, Mat& Zoom, Mat& Trans) 
-{
-	double orgtilt=-0.47179832679;
-	//std::cout<<M_PI<<std::endl;
-	if (key == 'w')
+void VirtualCamera::updateView(char key, Mat& Rot, Mat& Zoom) 
+{	
+	bool tiltchange=false;
+	bool panchange=false;
+	switch(key) {
+		case 'w':
+			tiltangle-=angleInc;
+			tiltchange=true;
+			break;
+		case 's':
+			tiltangle+=angleInc;
+			tiltchange=true;
+			break;
+		case 'd':
+			panangle+=angleInc;
+			panchange=true;
+			break;
+		case 'a':
+			panangle-=angleInc;
+			panchange=true;
+			break;
+		case 'r':
+			Zoom.at<double>(0, 0) += 0.1;
+			Zoom.at<double>(1, 1) += 0.1;			
+			break;
+		case 't':
+			Zoom.at<double>(0, 0) -= 0.1;
+			Zoom.at<double>(1, 1) -= 0.1;
+			break;
+	}
+	double TAngDeg=(tiltangle+tiltOffsetAngle)*180/M_PI;
+	std::cout<<"Tilt angle: "<<TAngDeg<<std::endl;
+	if(tiltchange==true) //update RotTiltMatrix;
 	{
-		//ZT.at<double>(2, 1) -= 0.00001;
-		Trans.at<double>(1, 2) += 0.05;
-		tiltangle-=M_PI/100.0;
+		double sT=sin(tiltangle);
+		double cT=cos(tiltangle);
+		for (int i=1;i<=2;++i){
+			RotTilt.at<double>(i,i)=cT;
+			RotTilt.at<double>(i,3-i)=(-3+2*i)*sT;
+		}
 	}
-	else if (key == 's') {
-		Trans.at<double>(1, 2) -= 0.05;
-		tiltangle+=M_PI/100.0;
+	double PAngDeg=panangle*180.0/M_PI;
+	std::cout<<"Pan angle : "<<PAngDeg<<std::endl;
+	if(panchange) //update RotPanMatrix
+	{
+		double sP=sin(panangle);
+		double cP=cos(panangle);
+		for(int i=0;i<=1;++i){
+			RotPan.at<double>(i*2,i*2)=cP;
+			RotPan.at<double>(i*2,2-i*2)=(-1+i*2)*sP;
+		}
 	}
-	else if (key == 'd') {
-		Trans.at<double>(0, 2) -= 0.05*cos(tiltangle+orgtilt);
-		panangle+=M_PI/100.0;
-	}
-	else if (key == 'a') {
-		Trans.at<double>(0, 2) += 0.05*cos(tiltangle+orgtilt);
-		panangle-=M_PI/100.0;
-	}
-	else if (key == 'r') {
-		Zoom.at<double>(0, 0) += 0.1;
-		Zoom.at<double>(1, 1) += 0.1;		
-	}
-	else if (key == 't') {
-		Zoom.at<double>(0, 0) -= 0.1;
-		Zoom.at<double>(1, 1) -= 0.1;
-	}
-	
-	Mat RotTilt = (Mat1d(3,3)<<1.0,0.0,0.0, 0.0,cos(tiltangle),-sin(tiltangle), 0.0,sin(tiltangle),cos(tiltangle));
-	Mat RotPan = (Mat1d(3,3)<<cos(panangle),0.0,-sin(panangle), 0.0,1.0,0.0, sin(panangle),0.0,cos(panangle));
-	Rot=RotTilt*RotPan;
+	Rot=RotPan*RotTilt*tOM;
 	return;
 }

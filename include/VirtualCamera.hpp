@@ -18,9 +18,12 @@ class VirtualCamera
 	private:
 		double panangle;
 		double tiltangle;
-		double xtrans;
-		double ytrans;
+		double tiltOffsetAngle;
+		double angleInc;
+		Mat tOM;
+		Mat RotTilt;
+		Mat RotPan;
 	public:
-		VirtualCamera();
-		void updateView(char key, Mat& Rot, Mat& Zoom, Mat& Trans);
+		VirtualCamera(double tiltOffset=0.47179832679, double angleIncrement=M_PI/100.0);
+		void updateView(char key, Mat& Rot, Mat& Zoom);
 };
