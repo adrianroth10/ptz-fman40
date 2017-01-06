@@ -18,6 +18,13 @@ This matching is very likely to contain outliers, however, the RANSAC method can
 The blending of the two images consists of three steps.
 First the previously calculated homogaphy is used to get the images in the same perspective.
 Here there is an overlap between the images.
-This overlap is weighted with a value ($w_1 \in [0, 1]$) for the first image and ($w_2 = 1 - w_1$) for the other.
-The weighting function is choosen to get the smoothest transition.
+This overlap is weighted with a value $w_1$ for the left image and $w_2 = 1 - w_1$ for the right one.
+In this project $w_1$ has been calculating using either a linear (equation \ref{eq:method:stitching:linear}) or sigmoid (equation \ref{eq:method:stitching:sigmoid}) function.
+\begin{equation} \label{eq:method:stitching:linear}
+  w_1 = -a x + b
+\end{equation}
+\begin{equation} \label{eq:method:stitching:sigmoid}
+  w_1 = \frac{e^{-0.1(x - x_d)}}{1 + e^{-0.1(x - x_d)}}
+\end{equation}
+Here $a$, $b$ and $x_d$ are adapted to fit the overlap of the images.
 At last the weighted images are added together.

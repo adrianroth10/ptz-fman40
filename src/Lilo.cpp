@@ -221,7 +221,8 @@ double Lilo::sigmoid(int x, vector<int> box)
 		xshift = box[0] + (box[1] - box[0]) / 2;
 	}
 	double a = -0.1;
-	return 1 - 1.0 / (1 + exp(a * (x - xshift)));
+	double exponential = exp(a * (x - xshift));
+	return exponential / (1.0 + exponential);
 }
 
 Mat Lilo::stitch(Mat &img1, Mat &img2, Size s, int blendType)
