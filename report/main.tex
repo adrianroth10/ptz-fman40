@@ -6,6 +6,7 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage[utf8]{inputenc}
 \usepackage{subcaption}
 \usepackage{hyperref}
 
@@ -24,12 +25,12 @@
 \begin{abstract}
 	A conventional PTZ-camera may have the risk at looking in the ''wrong direction at the wrong time'', when surveying fast-paced scenes, such as an ongoing soccer game. An alternative to this is to simultaneously survey the entire scene, stitch the images together, and then creating the PTZ-motion in software.
 
-	In this project we have implemented such a system using C++ and the OpenCV 3.1.0 library. Results show that for still images, the PTZ-motion and stitching works really well. 
-	This was also applied to snapshots from real uncalibrated cameras, where the calibration was carried out by hand. 
+	In this project we have implemented such a system using C++ and the OpenCV 3.1.0 library. Results show that for still images, the PTZ-motion and stitching works really well.
+	This was also applied to snapshots from real uncalibrated cameras, where the calibration was carried out by hand.
 	Results were not as good, but this might have do with poor calibration rather than the stitching and PTZ-implementation.
 \end{abstract}
 \begin{IEEEkeywords}
-	Blending, Homography, OpenCV, PTZ, Stitching 
+	Blending, Homography, OpenCV, PTZ, Stitching
 \end{IEEEkeywords}
 Code can be found at:
 \url{https://github.com/adrianroth10/ptz-fman40.git}
@@ -44,10 +45,11 @@ Code can be found at:
 
 \input{source/discussion.tex}
 
+\section{Acknowledgement}
+Thanks to Håkan Ardö who as supervisor has helped throughout the project by contributing with data, cameras and advice.
+
 \bibliography{citations.bib}
 \bibliographystyle{apalike}
-
-\newpage
 
 \input{source/appendices.tex}
 
