@@ -13,8 +13,9 @@ The rotational matrices are implemented as follows in (\ref{eq:pan}) and (\ref{e
 			0 & \sin(\theta_x) & \cos(\theta_x)
 		\end{pmatrix} \label{eq:tilt}
 	\end{align}
+	where $\theta_x$ is the tilt angle and $\theta_y$ is the pan angle, in radians.
 	For the particular input images in fig. \ref{fig:input}, the cameras were slighty tilted , with an estimated initial tilt angle of $\approx 0.47$ radians.\footnote{The exact estimated angle was 0.47179832679 radians.}
-	This means that if we want our panning axis to coincide with the panning axis of the input images, we first need to apply a tilting of $-0.47$ radians, and then apply our panning matrix, (\ref{eq:pan}) and then our tilting matrix.
+	This means that if we want our panning axis to coincide with the panning axis of the input images, we first need to apply a tilting of $-0.47$ radians, and then apply our panning matrix, (\ref{eq:pan}) and then our tilting matrix, \ref{eq:tilt}.
         The {\it initial tilt correction} can be written in matrix form as (\ref{eq:tiltinit}).
 	\begin{multline}
 		R_{tiltCorr}=\begin{pmatrix}
@@ -45,4 +46,4 @@ The rotational matrices are implemented as follows in (\ref{eq:pan}) and (\ref{e
 		H_{composite}=H_{perspective}H_{stitching}
 		\label{eq:comp}
 	\end{equation}
-	Where $H_{stitching}$ is the homography produced by the stitching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms. % is it not the other way around
+	Where $H_{stitching}$ is the homography produced by the stitching algorithm, invidiual for each image. Note that the stitching transform is applied prior to the perspective transforms.

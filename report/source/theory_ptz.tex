@@ -58,12 +58,12 @@ An illustration of the problem can be seen in fig. \ref{fig:PTorTP}.
 	\begin{subfigure}[t]{0.45\columnwidth}
 		\centering
 		\includegraphics[width=0.8\columnwidth]{../results/images/PanTilt.png}
-		\caption{Pan(blue) followed by tilt(red).}
+		\caption{Pan (blue) followed by tilt (red).}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.45\columnwidth}
 		\centering
 		\includegraphics[width=0.8\columnwidth]{../results/images/TiltPan.png}
-		\caption{Tilt(red) followed by Pan(blue).}
+		\caption{Tilt (red) followed by Pan (blue).}
 	\end{subfigure}
 	\caption{The rotational axi are depending on the order of the applied rotations}
 	\label{fig:PTorTP}
@@ -84,7 +84,7 @@ In this case the initial tilt angle must be estimated first, and the resulting r
 		\label{eq:zoom}
 	\end{equation}
 	where $Zoom_x$ and $Zoom_y$ are scaling factors in the x- and y- direction of the camera.
-	We want our scaling to act symmetrically on the camera, i.e. want to apply the zoom when origo of our coordinate system is along the principal point of our camera.
+	It is important that the image origo is placed in the center of the camera in order achive a proper zoom.
 	Therefore, we apply the zoom after the rotations in (\ref{eq:homodecomp}). The resulting expression becomes (\ref{eq:finalPTZ})
 	\begin{equation}
 		H_{perspective}=K Z  R_{x}R_{y}  K^{-1}
