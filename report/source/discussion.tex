@@ -15,7 +15,7 @@ There were also some problems with the PTZ-transform being applied twice on some
 The masking problem was eventually corrected by introducing a class containg both the BGR-image\footnote{OpenCV has its color encoding this way.} and the masking image, making sure that the same transforms were always applied to both image and mask.
 The image drifting was solved by making sure that the PTZ-transform was only applied once per image/mask pair.
 
-Our conclusion of this project is that this method for tracking a large scene works.
+The conclusion of this project is that this method for tracking a large scene works.
 There are of course possible improvements such as implementing a more robust stitching.
 To go even further maybe introduce an automatic tracking for the virtual PTZ camera in the images, possibly using machine learning.
 Then this way of filming for example a soccer game might even be an advantage to the way it is done today.
