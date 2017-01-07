@@ -50,8 +50,25 @@
 $R_{xyz}$ can in turn be decomoposed into $R_x$(tilt), $R_y$(pan) and $R_z$, i.e. rotations around the x-, y-, and z-axis of the camera.
 The order of these rotations are important as they determine the rotational axi of the camera. 
 One could think of the rotations all occuring in their own local coordinate systems. 
-If for instance the camera is rotated 10 degress along the x-axis, the next rotation will be about a new rotational axis that is tilted 10 degrees.
 This means that our rotations must occur in the same order as the linkage of the PTZ we want to emulate. 
+An illustration of the problem can be seen in fig. \ref{fig:PTorTP}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.45\columnwidth}
+		\centering
+		\includegraphics[width=0.8\columnwidth]{../results/images/PanTilt.png}
+		\caption{Pan(blue) followed by tilt(red).}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\columnwidth}
+		\centering
+		\includegraphics[width=0.8\columnwidth]{../results/images/TiltPan.png}
+		\caption{Tilt(red) followed by Pan(blue).}
+	\end{subfigure}
+	\caption{The rotational axi are depending on the order of the applied rotations}
+	\label{fig:PTorTP}
+\end{figure}
+
 As many PTZ cameras normally employ a horizontal platform for panning on which the tilting actuators are mounted upon, we therefore first want to apply the pan rotation, (y-direction), and then applying the tilt rotation (x-direction).
 However, the input images might have been captures with a tilt in relation to the pan axis.
 In this case the initial tilt angle must be estimated first, and the resulting rotation applied prior to to the synthesized pan and tilt rotations.
