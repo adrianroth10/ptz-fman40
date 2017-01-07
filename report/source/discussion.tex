@@ -11,6 +11,6 @@ Except for the possibility of bad algorithms the result might also be improved b
 
 For the PTZ-transform, actual implementation in C++ in combination with the stitching homographies were initially troublesome.
 It was soon realized that first applying stiching homographies and then applying the PTZ-transform made the images keep the correct relations to each other.
-There were also some problems with the PTZ-transform being applied twice on some of the stiched images, giving the impression that parts of the scene were ``drifting'' away, as well as the image masks not being transformed the same way as the images themselves.
+There were also some problems with the PTZ-transform being applied twice on some of the stit:wched images, giving the impression that parts of the scene were ``drifting'' away, as well as the image masks not being transformed the same way as the images themselves.
 The masking problem was eventually corrected by introducing a class containg both the BGR-image\footnote{OpenCV has its color encoding this way.} and the masking image, making sure that the same transforms were always applied to both image and mask.
 The image drifting was solved by making sure that the PTZ-transform was only applied once per image/mask pair.

@@ -76,6 +76,6 @@ void VirtualCamera::updateView(char key, Mat& Rot, Mat& Zoom)
 			RotPan.at<double>(i*2,2-i*2)=(-1+i*2)*sP;
 		}
 	}
-	Rot=RotPan*RotTilt*tOM;
+	Rot=RotTilt*RotPan*tOM;
 	return;
 }
