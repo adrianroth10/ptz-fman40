@@ -1,8 +1,8 @@
 \subsection{Virtual PTZ camera}
 Using the decomposition in (\ref{eq:homodecomp}) we can transform the problem into three rotations, where we only really need to use two of them, the panning rotation around the camera Y-axis and rotation around the camera X-axis after the panning has been applied.
 The rotational matrices are implemented as follows in (\ref{eq:pan}) and (\ref{eq:tilt})
-	\begin{align}		
-		R_{pan}&=\begin{pmatrix} 
+	\begin{align}
+		R_{pan}&=\begin{pmatrix}
 			\cos(\theta_y) & 0 & -\sin(\theta_y) \\
 			0 & 1 & 0 \\
 			\sin(\theta_y) & 0 & \cos(\theta_y)
@@ -14,22 +14,22 @@ The rotational matrices are implemented as follows in (\ref{eq:pan}) and (\ref{e
 		\end{pmatrix} \label{eq:tilt}
 	\end{align}
 	For the particular input images in fig. \ref{fig:input}, the cameras were slighty tilted , with an estimated initial tilt angle of $\approx 0.47$ radians.\footnote{The exact estimated angle was 0.47179832679 radians.}
-	This means that if we want our panning axis to coincide with the panning axis of the input images, we first need to apply a tilting of $-0.47$ radians, and then apply our panning matrix, (\ref{eq:pan}) and then our tilting matrix. 
-	The ''initial tilt correction'' can be written in matrix form as (\ref{eq:tiltinit}).
+	This means that if we want our panning axis to coincide with the panning axis of the input images, we first need to apply a tilting of $-0.47$ radians, and then apply our panning matrix, (\ref{eq:pan}) and then our tilting matrix.
+        The {\it initial tilt correction} can be written in matrix form as (\ref{eq:tiltinit}).
 	\begin{multline}
 		R_{tiltCorr}=\begin{pmatrix}
 			1 & 0 & 0 \\
-			0 & \cos(-\theta_{tiltinit}) & -\sin(-\theta_{tiltinit}) \\
-			0 & \sin(-\theta_{tiltinit}) & \cos(-\theta_{tiltinit})
+			0 & \cos(-\theta_{tiltInit}) & -\sin(-\theta_{tiltInit}) \\
+			0 & \sin(-\theta_{tiltInit}) & \cos(-\theta_{tiltInit})
 		\end{pmatrix} = \\
 		=\begin{pmatrix}
 			1 & 0 & 0 \\
-			0 & \cos(\theta_{tiltinit}) & \sin(\theta_{tiltinit}) \\
-			0 & -\sin(\theta_{tiltinit}) & \cos(\theta_{tiltinit})
+			0 & \cos(\theta_{tiltInit}) & \sin(\theta_{tiltInit}) \\
+			0 & -\sin(\theta_{tiltInit}) & \cos(\theta_{tiltInit})
 		\end{pmatrix}
 		\label{eq:tiltinit}
 	\end{multline}
-	where $\theta_{tiltinit} \approx 0.47$ radians.
+	where $\theta_{tiltInit} \approx 0.47$ radians.
 
 	The zoom is implemented as stated in (\ref{eq:zoom}).
 	The matrices are finally multiplied together to a single composite matrix, $H_{perspective}$, see (\ref{eq:PTZcomp})

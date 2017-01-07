@@ -10,7 +10,12 @@ Then for our home made camera set-up the stitching performed quite poorly as see
 Except for the possibility of bad algorithms the result might also be improved by doing a better calibration of the cameras.
 
 For the PTZ-transform, actual implementation in C++ in combination with the stitching homographies were initially troublesome.
-It was soon realized that first applying stiching homographies and then applying the PTZ-transform made the images keep the correct relations to each other.
-There were also some problems with the PTZ-transform being applied twice on some of the stit:wched images, giving the impression that parts of the scene were ``drifting'' away, as well as the image masks not being transformed the same way as the images themselves.
+It was soon realized that first applying stitching homographies and then applying the PTZ-transform made the images keep the correct relations to each other.
+There were also some problems with the PTZ-transform being applied twice on some of the stitched images, giving the impression that parts of the scene were {\it drifting} away, as well as the image masks not being transformed the same way as the images themselves.
 The masking problem was eventually corrected by introducing a class containg both the BGR-image\footnote{OpenCV has its color encoding this way.} and the masking image, making sure that the same transforms were always applied to both image and mask.
 The image drifting was solved by making sure that the PTZ-transform was only applied once per image/mask pair.
+
+Our conclusion of this project is that this method for tracking a large scene works.
+There are of course possible improvements such as implementing a more robust stitching.
+To go even further maybe introduce an automatic tracking for the virtual PTZ camera in the images, possibly using machine learning.
+Then this way of filming for example a soccer game might even be an advantage to the way it is done today.

@@ -7,7 +7,7 @@ In other words where an image {\it fits} in the other image.
 The other part is to combine or blend the images to make the transition between them as smooth as possible.
 
 To find a relation between two images, mutual points have to be found.
-This is done using a point detector which should find interest points.
+This is done using a point detector which should find interest points in both images.
 Then the points need a value for the possibility of matching points that are similar.
 Here a feature descriptor is needed.
 In this project a method called SURF has been used.
@@ -16,7 +16,7 @@ After SURFing the images the descriptors of the points are matched.
 This matching is very likely to contain outliers, however, the RANSAC method can be used to avoid influence of the outliers when calculating the homography between the images.
 
 The blending of the two images consists of three steps.
-First the previously calculated homogaphy is used to get the images in the same perspective.
+First the previously calculated homography is used to get the images in the same perspective.
 Here there is an overlap between the images.
 This overlap is weighted with a value $w_1$ for the left image and $w_2 = 1 - w_1$ for the right one.
 In this project $w_1$ has been calculating using either a linear (equation \ref{eq:method:stitching:linear}) or sigmoid (equation \ref{eq:method:stitching:sigmoid}) function.
@@ -27,4 +27,4 @@ In this project $w_1$ has been calculating using either a linear (equation \ref{
   w_1 = \frac{e^{-0.1(x - x_d)}}{1 + e^{-0.1(x - x_d)}}
 \end{equation}
 Here $a$, $b$ and $x_d$ are adapted to fit the overlap of the images.
-At last the weighted images are added together.
+At last the weighted images are stitched together.
