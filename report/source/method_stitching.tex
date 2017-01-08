@@ -27,4 +27,6 @@ In this project $w_1$ has been calculating using either a linear (equation \ref{
   w_1 = \frac{e^{-0.1(x - x_d)}}{1 + e^{-0.1(x - x_d)}}
 \end{equation}
 Here $a$, $b$ and $x_d$ are adapted to fit the overlap of the images.
+With the start and end of the overlap in the x-direction a and b are set so that $w_1 = 1$ on the left end and $w_1 = 0$ on the other.
+$x_d$ is just set to be the in the middle of the overlap in the x-direction.
 At last the weighted images are stitched together.
