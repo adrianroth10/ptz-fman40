@@ -5,7 +5,8 @@
 	Here we introduce a virtual camera that has the same calibration parameters as the original real cameras.
 	With this virtual camera we should be able to look around in the stitched image as a real camera in the real world, but how?
 	The motion we seek to describe is in $\mathbb{R}^3$ and the aquired images are in $\mathbb{R}^2$, so we want to describe 3D-dimensional motion, which in this case are camera rotations.
-	In order to describe perspective distortions, we introduce a third \emph{homogeneous coordinate}, thereby going from $\mathbb{R}^2$ to $\mathbb{P}^2$.
+	In order to describe perspective distortions, we introduce \emph{homogeneous coordinates}. 
+	This is realized by expanding each pixel coordinate pair, $(x,y)$, with a third coordinate $w$, thereby going from $\mathbb{R}^2$ to $\mathbb{P}^2$.
 	The perspective distortion can now be described by a perspective transform matrix, carried out on each pixel in $\mathbb{P}^2$, seen in \cite{hartley2003Multiple}.
 	Each pixel, with coordinates $\left( \begin{smallmatrix} x & y & w \end{smallmatrix} \right)^T$
 	is multiplied from the left with the transformation matrix, $H_{perspective}$, and the resulting coordinates $ \left( \begin{smallmatrix} x', & y', & w' \end{smallmatrix} \right) ^T$ are the divided with homogeneous coordiante $w$.
