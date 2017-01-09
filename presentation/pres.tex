@@ -25,6 +25,7 @@
 	\tableofcontents
 \end{frame}
 
+\section{WHAAAAT?}
 \begin{frame}
   %purpose
 \end{frame}
@@ -60,26 +61,52 @@
 
 \end{frame}
 
+\section{Finding Homography}
 \begin{frame}
-  %homosurfning
+
 \end{frame}
 
+\section{Pan, Tilt, Zoom camera}
 \begin{frame}
   %ptz
 \end{frame}
 
+\section{Blending}
 \begin{frame}
   %blending
 \end{frame}
 
+\section{Resultat}
 \begin{frame}
-  %implementation
+	\frametitle{implementation}
+	\begin{tikzpicture}[node distance=1.2cm]
+		\node (input4) [IO] {User input};
+		\node (input1) [IO, right of= input4, xshift=1.7cm] {\includegraphics[width=2cm]{../data/20150521_194353_C1D8.jpg}};
+		\node (input2) [IO, right of= input1, xshift=1.3cm] {\includegraphics[width=2cm]{../data/20150521_194353_FD1E.jpg}};
+		\node (input3) [IO, right of= input2, xshift=1.3cm] {\includegraphics[width=2cm]{../data/20150521_194353_49E3.jpg}};
+		\node (SURF1) [process, below of= input1, yshift=-0.2cm] {Extract SURF features};
+		\node (SURF2) [process, below of= input3, yshift=-0.2cm] {Extract SURF features};
+		\node (Homo1) [process, below of= SURF1] {Homography to center image};
+		\node (Homo2) [process, below of= SURF2] {Homography to center image};
+		\node (PTZ) [process, below of= input4, yshift=-0.2cm] {PTZ matrix};
+		\node (Trans) [process, below of= PTZ,yshift=-1.3cm] {Apply transformations};
+		\node (Blend) [process, below of=Trans, yshift=-0.5cm] {Blend results};
+		\node (Output) [IO, right of=Blend, xshift=4.5cm] {\includegraphics[width=7cm]{../results/images/res_stitch.PNG}};
+		\draw [arrow] (input1) -- (SURF1);
+		\draw [arrow] (input3) -- (SURF2);
+		\draw [arrow] (input4) -- (PTZ);
+		\draw [arrow] (SURF1) -- (Homo1);
+		\draw [arrow] (SURF2) -- (Homo2);
+		\draw [arrow] (PTZ)  -- (Trans);
+		\draw [arrow] (Homo1)  |- (Trans);
+		\draw [arrow] (Homo2)  |- (Trans);
+		\draw [arrow] (input2) |- (Trans);
+		\draw [arrow] (Trans) -- (Blend);
+		\draw [arrow] (Blend) -- (Output);
+	\end{tikzpicture}
 \end{frame}
 
-\begin{frame}
-  %resultat
-\end{frame}
-
+%live ptz
 %livekameror
 
 \begin{frame}
@@ -87,8 +114,7 @@
 \end{frame}
 
 \begin{frame}
-  %outro
-\end{frame}
 
+\end{frame}
 
 \end{document}
