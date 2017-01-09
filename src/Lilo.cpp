@@ -26,8 +26,8 @@ MatStruct Lilo::blend(MatStruct &img1,
 		s = img1.img.size();
 	}
 
-	Mat white1 = img1.mask;//(img1.size(), CV_32FC3, VF(1, 1, 1));
-	Mat white2 = img2.mask;//(img2.size(), CV_32FC3, VF(1, 1, 1));
+	Mat white1 = img1.mask;
+	Mat white2 = img2.mask;
 	Mat whiteOut1(s, CV_32FC3);
 	Mat whiteOut2(s, CV_32FC3);
 
@@ -242,7 +242,7 @@ Mat Lilo::stitch(Mat &img1, Mat &img2, Size s, int blendType)
 	MatStruct imga2=MatStruct(img2.size());
 	imga1.img = img1;
 	imga2.img = img2;
-	MatStruct outa = MatStruct(img2.size());
+	MatStruct outa = MatStruct(s);
 
 	if (H2.at<double>(0, 2) < 0) {
 		H1.at<double>(0, 2) = s.width - img1.cols;

@@ -1,16 +1,21 @@
 \documentclass[9pt]{beamer}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage[yyyymmdd]{datetime}
+\renewcommand{\dateseparator}{ - }
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
 \usetikzlibrary{positioning}
 \definecolor{orange}{RGB}{235,113,37}
+\definecolor{green}{RGB}{86,176,0}
 
 \tikzstyle{IO} = [rectangle, rounded corners, minimum width=2cm, minimum height=1 cm , text centered, draw=black, fill=red!30]
 \tikzstyle{process} = [rectangle, minimum width=2cm, minimum height=1 cm , text centered, draw=black, fill=orange]
+\tikzstyle{adrianrules} = [rectangle, rounded corners, minimum width=2cm, minimum height=1 cm , text centered, draw=black, fill=green]
 \tikzstyle{arrow} = [thick, ->, >=stealth]
 
+\setbeamerfont{frametitle}{size=\huge}
 
 \usetheme{default}
 \usecolortheme{default}
@@ -63,7 +68,19 @@
 
 \section{Finding Homography}
 \begin{frame}
+	\frametitle{Finding Homography}
+	\begin{tikzpicture}[node distance=1.2cm]
+          \node (input1) [IO] {\includegraphics[width=5cm]{../data/20150521_194353_C1D8.jpg}};
+          \node (input2) [IO, right of= input1, xshift=4.5cm] {\includegraphics[width=5cm]{../data/20150521_194353_FD1E.jpg}};
+        \end{tikzpicture}
+\end{frame}
 
+\begin{frame}
+	\frametitle{Finding Homography}
+	\begin{tikzpicture}[node distance=1.2cm]
+          \node (input1) [adrianrules] {\includegraphics[width=5cm]{../results/stitch_warped.jpg}};
+          \node (input2) [adrianrules, right of= input1, xshift=4.5cm] {\includegraphics[width=5cm]{../results/rect_2.jpg}};
+        \end{tikzpicture}
 \end{frame}
 
 \section{Pan, Tilt, Zoom camera}
@@ -73,7 +90,22 @@
 
 \section{Blending}
 \begin{frame}
-  %blending
+	\frametitle{Blending}
+        \begin{tikzpicture}[node distance=1.2cm]
+          \node (input1) [adrianrules, ] {\includegraphics[height=3cm]{../results/stitch_linear_1.jpg}};
+          \node (input2) [adrianrules, right of= input1, xshift=4.5cm] {\includegraphics[height=3cm]{../results/stitch_linear_2.jpg}};
+          \node (input3) [adrianrules, below of= input1, yshift=4.5cm] {\includegraphics[height=3cm]{../results/stitch_sigmoid_1.jpg}};
+          \node (input4) [adrianrules, right of= input3, xshift=4.5cm] {\includegraphics[height=3cm]{../results/stitch_sigmoid_2.jpg}};
+        \end{tikzpicture}
+\end{frame}
+\begin{frame}
+	\frametitle{Blending}
+        \begin{center}
+          \begin{tikzpicture}[node distance=1.2cm]
+            \node (input1) [adrianrules, ] {\includegraphics[height=3cm]{../results/stitch_linear_big.jpg}};
+            \node (input2) [adrianrules, below of= input1, yshift=4.5cm] {\includegraphics[height=3cm]{../results/stitch_sigmoid_big.jpg}};
+          \end{tikzpicture}
+        \end{center}
 \end{frame}
 
 \section{Resultat}
@@ -114,7 +146,14 @@
 \end{frame}
 
 \begin{frame}
+  \begin{center}
+    {\Huge Questions?}
+  \end{center}
+\end{frame}
 
+\begin{frame}
+	\frametitle{table of Contents}
+	\tableofcontents
 \end{frame}
 
 \end{document}

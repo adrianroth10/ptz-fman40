@@ -21,7 +21,7 @@ int main( int argc, char** argv )
 	Size s = img1.size();
 	s.width += 1000;
 
-	Lilo::homographyThreshold = 50;
+	Lilo::homographyThreshold = 3;
 	Mat out1 = Lilo::stitch(img1, img2);
 
 	const string cam1 = "Camera 1";

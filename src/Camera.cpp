@@ -50,11 +50,11 @@ Camera::Camera(int nbr)
 			break;
 		case 3:
 			camera_file = data_loc + "out_camera_1.xml";
-			source = data_loc + "homography/camera_1.jpg";
+			source = data_loc + "../results/camera_1.jpg";
 			break;
 		case 4:
 			camera_file = data_loc + "out_camera_2.xml";
-			source = data_loc + "homography/camera_2.jpg";
+			source = data_loc + "../results/camera_2.jpg";
 			break;
 		default:
 			throw invalid_argument("Not a valid camera");
