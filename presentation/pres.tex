@@ -19,6 +19,7 @@
 
 \usetheme{default}
 \usecolortheme{default}
+\usefonttheme{professionalfonts}
 
 \title{Synthesized PTZ}
 \author{Adrian and Filip}
@@ -37,7 +38,7 @@
 
 \section{implementation}
 \begin{frame}
-	\frametitle{implementation}
+	\frametitle{implementation - overview}
 	\begin{tikzpicture}[node distance=1.2cm]
 		\node (input4) [IO] {User input};
 		\node (input1) [IO, right of= input4, xshift=1.7cm] {\includegraphics[width=2cm]{../data/20150521_194353_C1D8.jpg}};
@@ -63,10 +64,15 @@
 		\draw [arrow] (Trans) -- (Blend);
 		\draw [arrow] (Blend) -- (Output);
 	\end{tikzpicture}
+\end{frame}
+
+\subsection{Finding Homography}
+\begin{frame}
 
 \end{frame}
 
-\section{Finding Homography}
+\subsection{Pan, Tilt, Zoom camera}
+\subsubsection{Camera rotation}
 \begin{frame}
 	\frametitle{Finding Homography}
 	\begin{tikzpicture}[node distance=1.2cm]
@@ -83,12 +89,68 @@
         \end{tikzpicture}
 \end{frame}
 
-\section{Pan, Tilt, Zoom camera}
+
 \begin{frame}
-  %ptz
+	\frametitle{Camera rotation}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{itemize}
+			\item Rotations of camera in $\mathbb{R}^3$.
+			\item $R_{pan}=\begin{pmatrix}
+						1 & 0 & 0\\
+						0 & cos(\theta) & -sin(\theta)\\
+						0 & sin(\theta) & cos(\theta)
+					\end{pmatrix}$
+			\item $R_{tilt}=\begin{pmatrix}
+						cos(\phi) & 0 & -sin(\phi)\\
+						0 & 1 & 0 \\
+						sin(\phi) & 0 & \cos(\phi)
+					\end{pmatrix}$
+			%\item Enter \emph{Homogenous coordinates}
+			%\item $ \underset{\mathbb{R^2}}{(x,y)^T} \rightarrow \underset{\mathbb{P}^2}{(x,y,w)^T}$
+			\item  Pan or tilt first?
+			\item  tilt correction $\theta_{tiltCorr}$
+		\end{itemize}
+		\column{.42\textwidth}
+		\includegraphics[width=\columnwidth]{../results/images/TiltPan.png}\\
+		\includegraphics[width=\columnwidth]{../results/images/PanTilt.png}
+	\end{columns}
 \end{frame}
 
-\section{Blending}
+\begin{frame}
+	\begin{columns}
+		\column{.3\textwidth}
+		\begin{itemize}
+			\item Images are in $\mathbb{R}^2$, but rotations in $\mathbb{R}^3$.
+			\item How to describe rotations in $\mathbb{R}^2$?\\
+			\item Enter \emph{Homogeneous} Coordinates and \emph{Perspective transform}.
+		\end{itemize}
+			%Visa med block??
+		\column{.7\textwidth}
+		\begin{itemize}
+			\item $\underset{\mathbb{R}^2}{(x,y)^T} \rightarrow \underset{\mathbb{P}^2}{(x,y,w)^T}$
+			\item $H_{perspective}\cdot \begin{pmatrix} x \\ y \\w \end{pmatrix}=\begin{pmatrix} x' \\y' \\w'\end{pmatrix} \overset{1/w'}{\rightarrow}=\underset{\mathbb{P}^2}{\begin{pmatrix} x'/w' \\  x'/w'\\ w'/w'\end{pmatrix}}\rightarrow \underset{\mathbb{R}^2}{\begin{pmatrix} x'/w' \\ y'/w' \end{pmatrix}}$
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Perspective transform}
+	\begin{columns}
+		\column{.5\teztwidth}
+		\begin{itemize}
+			\item $H_{perspective}=KR_{comp}K^{-1}$
+			\item $R_{comp}=R_{Tilt}R_{pan}R_{tiltCorr}$
+		\end{itemize}
+		\column{.5\textwidth}
+		\begin{tikzpicture}
+			\draw(0,0)-|(1,1)
+			\draw(1,1)-|(0,0)
+		\end{tikzpicture}
+	\end{columns}
+\end{frame}
+
+\subsection{Blending}
 \begin{frame}
 	\frametitle{Blending}
         \begin{tikzpicture}[node distance=1.2cm]
