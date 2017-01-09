@@ -28,10 +28,13 @@
 
 \section{WHAAAAT?}
 \begin{frame}
-  %purpose
+  %purpose 
+	ahubaboda!
 \end{frame}
 
 \section{implementation}
+
+
 \begin{frame}
 	\frametitle{implementation - overview}
 	\begin{tikzpicture}[node distance=1.2cm]
@@ -115,15 +118,20 @@
 \begin{frame}
 	\frametitle{Perspective transform}
 	\begin{columns}
-		\column{.5\teztwidth}
+		\column{.5\textwidth}
 		\begin{itemize}
 			\item $H_{perspective}=KR_{comp}K^{-1}$
 			\item $R_{comp}=R_{Tilt}R_{pan}R_{tiltCorr}$
 		\end{itemize}
 		\column{.5\textwidth}
 		\begin{tikzpicture}
-			\draw(0,0)-|(1,1)
-			\draw(1,1)-|(0,0)
+			\draw(0,0)|-(1,1);
+			\draw(1,1)|-(0,0);
+			\draw(4,0) -- (5,-.2);
+			\draw(5,-.2) -- (5,1.2);
+			\draw(5,1.2) -- (4,1);
+			\draw(4,1) -- (4,0);
+			\draw[arrow] (1,0.5) -- node[below]{$H_{perspective}$} (4,0.5);
 		\end{tikzpicture}
 	\end{columns}
 \end{frame}
