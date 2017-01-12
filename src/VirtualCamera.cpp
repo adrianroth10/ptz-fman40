@@ -16,10 +16,14 @@ VirtualCamera::VirtualCamera(double tiltOffset, double angleIncrement):
 	RotPan=Mat::eye(3,3,CV_64F);  //Pan Rotation matrix
 	double stO=sin(-tiltOffset); // sin tilt Offset
 	double ctO=cos(-tiltOffset); // cos tilt Offset
-	for (int i=1;i<=2;++i){
+	tOM.at<double>(1,1)=ct0;
+	tOM.at<double>(1,2)=-st0;
+	tOM.at<double>(2,1)=ct0;
+	tOM.at<double>(2,2)=st0;
+	/*for (int i=1;i<=2;++i){
 		tOM.at<double>(i,i)=ctO;
 		tOM.at<double>(i,3-i)=(-3+2*i)*stO;
-	}
+	}*/
 		
 }
 
@@ -62,10 +66,14 @@ void VirtualCamera::updateView(char key, Mat& Rot, Mat& Zoom)
 	{
 		double sT=sin(tiltangle);
 		double cT=cos(tiltangle);
-		for (int i=1;i<=2;++i){
+		RotTilt.at<double>(1,1)=cT;
+		RotTilt.at<double>(1,2)=-sT;	
+		RotTilt.at<double>(2,1)=cT;
+		RotTilt.at<double>(2,2)=sT;
+		/*for (int i=1;i<=2;++i){
 			RotTilt.at<double>(i,i)=cT;
 			RotTilt.at<double>(i,3-i)=(-3+2*i)*sT;
-		}
+		}*/
 	}
 	double PAngDeg=panangle*180.0/M_PI;
 	std::cout<<"Pan angle : "<<PAngDeg<<std::endl;
@@ -73,10 +81,14 @@ void VirtualCamera::updateView(char key, Mat& Rot, Mat& Zoom)
 	{
 		double sP=sin(panangle);
 		double cP=cos(panangle);
-		for(int i=0;i<=1;++i){
+		RotPan.at<double>(0,0)=cP;
+		RotPan.at<double>(0,2)=-sP;
+		RotPan.at<double>(2,0)=cP;
+		RotPan.at<double>(2,2)=sP;
+	/*	for(int i=0;i<=1;++i){
 			RotPan.at<double>(i*2,i*2)=cP;
 			RotPan.at<double>(i*2,2-i*2)=(-1+i*2)*sP;
-		}
+		}*/
 	}
 	Rot=RotTilt*RotPan*tOM;
 	return;
