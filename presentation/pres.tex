@@ -80,6 +80,14 @@
 \begin{frame}
 	\frametitle{Finding Homography}
 	\begin{tikzpicture}[node distance=1.2cm]
+          \node (input1) [IO] {\includegraphics[width=5cm]{../results/rect_1.jpg}};
+          \node (input2) [IO, right of= input1, xshift=4.5cm] {\includegraphics[width=5cm]{../results/rect_2.jpg}};
+        \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Finding Homography}
+	\begin{tikzpicture}[node distance=1.2cm]
           \node (input1) [adrianrules] {\includegraphics[width=5cm]{../results/stitch_warped.jpg}};
           \node (input2) [adrianrules, right of= input1, xshift=4.5cm] {\includegraphics[width=5cm]{../results/rect_2.jpg}};
         \end{tikzpicture}
@@ -128,37 +136,37 @@
 		\column{.5\textwidth}
 		\begin{itemize}
 			\item $\underset{\mathbb{R}^2}{(x,y)^T} \rightarrow \underset{\mathbb{P}^2}{(x,y,w)^T}$
-			\item $H_{perspective} 
-				\cdot 
-				\begin{pmatrix} 
-					x \\ 
+			\item $H_{perspective}
+				\cdot
+				\begin{pmatrix}
+					x \\
 					y \\
-					w 
+					w
 				\end{pmatrix}=
-				\begin{pmatrix} 
+				\begin{pmatrix}
 					x' \\
 					y' \\
 					w'
-				\end{pmatrix} 
-				\overset{1/w'}{\rightarrow} 
-				\qquad 
-				\qquad 
-				\qquad 
-				\qquad 
-				\qquad 
-				\qquad 
-				\overset{1/w'}{\rightarrow} 
+				\end{pmatrix}
+				\overset{1/w'}{\rightarrow}
+				\qquad
+				\qquad
+				\qquad
+				\qquad
+				\qquad
+				\qquad
+				\overset{1/w'}{\rightarrow}
 				\underset{\mathbb{P}^2}{
-					\begin{pmatrix} 
+					\begin{pmatrix}
 						x'/w' \\
 						x'/w'\\
 						w'/w'
 					\end{pmatrix}}
-					\rightarrow 
+					\rightarrow
 					\underset{\mathbb{R}^2}{
-						\begin{pmatrix} 
+						\begin{pmatrix}
 							x'/w' \\
-							y'/w' 
+							y'/w'
 						\end{pmatrix}}$
 		\end{itemize}
 	\end{columns}
@@ -192,6 +200,13 @@
 \end{frame}
 
 \subsection{Blending}
+\begin{frame}
+	\frametitle{Finding Homography}
+	\begin{tikzpicture}[node distance=1.2cm]
+          \node (input1) [adrianrules] {\includegraphics[width=5cm]{../results/stitch_warped.jpg}};
+          \node (input2) [adrianrules, right of= input1, xshift=4.5cm] {\includegraphics[width=5cm]{../results/rect_2.jpg}};
+        \end{tikzpicture}
+\end{frame}
 \begin{frame}
 	\frametitle{Blending}
         \begin{tikzpicture}[node distance=1.2cm]
