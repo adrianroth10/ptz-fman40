@@ -53,6 +53,8 @@ void VirtualCamera::updateView(char key, Mat& Rot, Mat& Zoom)
 			Zoom.at<double>(0, 0) -= 0.1;
 			Zoom.at<double>(1, 1) -= 0.1;
 			break;
+		default :
+			break;
 	}
 	double TAngDeg=(tiltangle+tiltOffsetAngle)*180/M_PI;
 	std::cout<<"Tilt angle: "<<TAngDeg<<std::endl;
