@@ -27,27 +27,28 @@
 \begin{document}
 \maketitle
 \begin{frame}
-	\frametitle{table of Contents}
+	\frametitle{Table of Contents}
 	\tableofcontents
 \end{frame}
 
-\section{WHAAAAT?}
 \begin{frame}
-  %purpose
-	ahubaboda!
+        \centering
+          \includegraphics[width=5cm]{../results/images/PTZ_problem.jpg}
+
 \end{frame}
 
-\section{implementation}
+\section{Implementation}
 
 \begin{frame}
-	\frametitle{implementation - overview}
+	\frametitle{Implementation - overview}
 	\begin{tikzpicture}[node distance=1.2cm]
 		\node (input4) [IO] {User input};
 		\node (input1) [IO, right of= input4, xshift=1.7cm] {\includegraphics[width=2cm]{../data/20150521_194353_C1D8.jpg}};
 		\node (input2) [IO, right of= input1, xshift=1.3cm] {\includegraphics[width=2cm]{../data/20150521_194353_FD1E.jpg}};
 		\node (input3) [IO, right of= input2, xshift=1.3cm] {\includegraphics[width=2cm]{../data/20150521_194353_49E3.jpg}};
-		\node (SURF1) [process, below of= input1, yshift=-0.2cm] {Extract SURF features};
-		\node (SURF2) [process, below of= input3, yshift=-0.2cm] {Extract SURF features};
+		\node (SURF1) [process, below of= input1, yshift=-0.2cm] {SURF features};
+		\node (SURF2) [process, below of= input3, yshift=-0.2cm] {SURF features};
+		\node (SURF3) [process, below of= input2, yshift=-0.2cm] {SURF features};
 		\node (Homo1) [process, below of= SURF1] {Homography to center image};
 		\node (Homo2) [process, below of= SURF2] {Homography to center image};
 		\node (PTZ) [process, below of= input4, yshift=-0.2cm] {PTZ matrix};
@@ -56,13 +57,14 @@
 		\node (Output) [IO, right of=Blend, xshift=4.5cm] {\includegraphics[width=7cm]{../results/images/res_stitch.PNG}};
 		\draw [arrow] (input1) -- (SURF1);
 		\draw [arrow] (input3) -- (SURF2);
+		\draw [arrow] (input2) -- (SURF3);
 		\draw [arrow] (input4) -- (PTZ);
 		\draw [arrow] (SURF1) -- (Homo1);
 		\draw [arrow] (SURF2) -- (Homo2);
 		\draw [arrow] (PTZ)  -- (Trans);
 		\draw [arrow] (Homo1)  |- (Trans);
 		\draw [arrow] (Homo2)  |- (Trans);
-		\draw [arrow] (input2) |- (Trans);
+		\draw [arrow] (SURF3) |- (Trans);
 		\draw [arrow] (Trans) -- (Blend);
 		\draw [arrow] (Blend) -- (Output);
 	\end{tikzpicture}
@@ -102,12 +104,12 @@
 		\column{.5\textwidth}
 		\begin{itemize}
 			\item Rotations of camera in $\mathbb{R}^3$.
-			\item $R_{pan}=\begin{pmatrix}
+			\item $R_{tilt}=\begin{pmatrix}
 						1 & 0 & 0\\
 						0 & cos(\theta) & -sin(\theta)\\
 						0 & sin(\theta) & cos(\theta)
 					\end{pmatrix}$
-			\item $R_{tilt}=\begin{pmatrix}
+			\item $R_{pan}=\begin{pmatrix}
 						cos(\phi) & 0 & -sin(\phi)\\
 						0 & 1 & 0 \\
 						sin(\phi) & 0 & \cos(\phi)
@@ -228,14 +230,15 @@
 
 \section{Results}
 \begin{frame}
-	\frametitle{implementation}
+	\frametitle{Implementation}
 	\begin{tikzpicture}[node distance=1.2cm]
 		\node (input4) [IO] {User input};
 		\node (input1) [IO, right of= input4, xshift=1.7cm] {\includegraphics[width=2cm]{../data/20150521_194353_C1D8.jpg}};
 		\node (input2) [IO, right of= input1, xshift=1.3cm] {\includegraphics[width=2cm]{../data/20150521_194353_FD1E.jpg}};
 		\node (input3) [IO, right of= input2, xshift=1.3cm] {\includegraphics[width=2cm]{../data/20150521_194353_49E3.jpg}};
-		\node (SURF1) [process, below of= input1, yshift=-0.2cm] {Extract SURF features};
-		\node (SURF2) [process, below of= input3, yshift=-0.2cm] {Extract SURF features};
+		\node (SURF1) [process, below of= input1, yshift=-0.2cm] {SURF features};
+		\node (SURF2) [process, below of= input3, yshift=-0.2cm] {SURF features};
+		\node (SURF3) [process, below of= input2, yshift=-0.2cm] {SURF features};
 		\node (Homo1) [process, below of= SURF1] {Homography to center image};
 		\node (Homo2) [process, below of= SURF2] {Homography to center image};
 		\node (PTZ) [process, below of= input4, yshift=-0.2cm] {PTZ matrix};
@@ -244,13 +247,14 @@
 		\node (Output) [IO, right of=Blend, xshift=4.5cm] {\includegraphics[width=7cm]{../results/images/res_stitch.PNG}};
 		\draw [arrow] (input1) -- (SURF1);
 		\draw [arrow] (input3) -- (SURF2);
+		\draw [arrow] (input2) -- (SURF3);
 		\draw [arrow] (input4) -- (PTZ);
 		\draw [arrow] (SURF1) -- (Homo1);
 		\draw [arrow] (SURF2) -- (Homo2);
 		\draw [arrow] (PTZ)  -- (Trans);
 		\draw [arrow] (Homo1)  |- (Trans);
 		\draw [arrow] (Homo2)  |- (Trans);
-		\draw [arrow] (input2) |- (Trans);
+		\draw [arrow] (SURF3) |- (Trans);
 		\draw [arrow] (Trans) -- (Blend);
 		\draw [arrow] (Blend) -- (Output);
 	\end{tikzpicture}
@@ -293,7 +297,21 @@
 %live ptz
 %livekameror
 
+\section{Future Work}
+\begin{frame}
+  \frametitle{Future Work}
+  \begin{center}
+    \begin{itemize}
+      \item Faster implementation
+      \item More generic implementation, for example more cameras
+      \item Better camera calibration
+      \item Tracking ability
+    \end{itemize}
+  \end{center}
+\end{frame}
 
+
+\section{Questions}
 \begin{frame}
   \begin{center}
     {\Huge Questions?}
@@ -301,7 +319,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{table of Contents}
+	\frametitle{Table of Contents}
 	\tableofcontents
 \end{frame}
 
