@@ -16,10 +16,10 @@ VirtualCamera::VirtualCamera(double tiltOffset, double angleIncrement):
 	RotPan=Mat::eye(3,3,CV_64F);  //Pan Rotation matrix
 	double stO=sin(-tiltOffset); // sin tilt Offset
 	double ctO=cos(-tiltOffset); // cos tilt Offset
-	tOM.at<double>(1,1)=ct0;
-	tOM.at<double>(1,2)=-st0;
-	tOM.at<double>(2,1)=ct0;
-	tOM.at<double>(2,2)=st0;
+	tOM.at<double>(1,1)=ctO;
+	tOM.at<double>(1,2)=-stO;
+	tOM.at<double>(2,1)=ctO;
+	tOM.at<double>(2,2)=stO;
 	/*for (int i=1;i<=2;++i){
 		tOM.at<double>(i,i)=ctO;
 		tOM.at<double>(i,3-i)=(-3+2*i)*stO;
